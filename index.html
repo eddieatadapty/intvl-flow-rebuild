@@ -1,0 +1,1297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- flow-rebuild template (Growth Audit, v3: + walkthrough video, phone view/QR, localization, paywall today vs proposed). Replace every double-brace placeholder, everything between
+     the SCREENS markers, and the CONTENT json. Rules that brand-check.py enforces are marked RULE.
+     Reference builds: eddieatadapty.github.io/datacamp-flow-rebuild-v2 · bterzic123.github.io/planner5d-flow-rebuild-v2 -->
+<title>INTVL Growth Audit</title>
+<meta name="description" content="Five ideas to turn more INTVL users into subscribers, each built into a clickable version of INTVL's own onboarding. Prepared by Adapty.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- the APP's font (brand.json fonts, or the closest Google family) + a mono if the app shows code -->
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Inter+Tight:ital,wght@1,800;1,900&display=swap" rel="stylesheet">
+<style>
+/* BRAND:START — the only place the APP's colours are written as literals. RULE: every value here is
+   copied from brand.json / a sampled pixel of the app's own screens; never "improved". Used only inside the phone. */
+:root{
+  --b-primary:#50f82e;               /* CTA green — intvl.com.au + SAVE button, shot 3 */
+  --b-primary-ink:#0f170d;           /* dark text on green (SAVE, Start) */
+  --b-bg:#ffffff;                    /* their white cards and sheets */
+  --b-surface:#eefeea;               /* light green tint (rivals note box, shot 7) */
+  --b-sel:#b9fcab;                   /* selected pill / row (Solo, Run / Walk) */
+  --b-ink:#0f170d;                   /* primary text */
+  --b-ink2:rgba(15,23,13,.55);       /* secondary text (their ink at 55%) */
+  --b-line:#e9e9e9;                  /* borders, grab bars */
+  --b-soft:#f5f5f5;                  /* tool buttons, toggles */
+  --b-dark:#0f170d;                  /* CONTINUE button, dark sheets, theme colour */
+  --b-deep:#103209;                  /* deep green (site) */
+  --b-gtext:#2d9917;                 /* green text on white (LOOP CLOSED, TERRITORY CAPTURED) */
+  --b-light:#96fb82;                 /* light end of their green bars */
+  --b-yellow:#fae20e;                /* crown / podium yellow, shot 5 */
+  --b-accent2:#fe6f64;               /* rival red (site) */
+  --b-grad:linear-gradient(90deg,#96fb82,#50f82e); /* their rivals bar */
+  --b-radius:16px;
+  --b-pill:999px;
+  --b-font:'Geist',-apple-system,system-ui,sans-serif;
+  --b-mono:'Geist Mono',ui-monospace,monospace;
+  --b-disp:'Inter Tight','Geist',-apple-system,sans-serif;
+}
+/* BRAND:END */
+/* INTVL's second and third families: Geist Mono for labels/buttons, the italic display face for headlines */
+.scr .mono{font-family:var(--b-mono)}
+.scr .dsp{font-family:var(--b-disp)}
+/* status bar turns white over their dark screens (maps, globe, photo) */
+.phone-in:has(.scr.s-dark.is-active) .sbar,html.tourmode .phone-in:has(.scr.s-dark[style*="z-index: 2"]) .sbar{color:#fff}
+
+/* ================= the audit page — Adapty's, not the app's. Light, Apple-style. ================= */
+:root{
+  color-scheme:light;
+  --st-ground:#f5f5f7; --st-card:#ffffff; --st-ink:#1d1d1f; --st-ink2:#6e6e73; --st-ink3:#86868b;
+  --st-hair:rgba(0,0,0,.09); --st-link:#0066cc;
+  --st-accent:#103209;      /* INTVL deep green: buttons, the outcome band */
+  --st-hi:#50f82e;          /* INTVL green: outcome numbers on the band, idea dots */
+  --st-mark:rgba(80,248,46,.55); /* the highlighter under impact numbers */
+  --st-font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+html,body{margin:0}
+body{background:var(--st-ground);color:var(--st-ink);font-family:var(--st-font);-webkit-font-smoothing:antialiased;font-size:17px;line-height:1.47}
+.au-wrap{max-width:1080px;margin:0 auto;padding-inline:22px}
+a{color:var(--st-link)}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--st-link);outline-offset:3px;border-radius:6px}
+mark{background:linear-gradient(transparent 62%,var(--st-mark) 62%,var(--st-mark) 92%,transparent 92%);color:inherit;padding:0 .04em}
+
+/* nav */
+.au-nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:rgba(245,245,247,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--st-hair)}
+.au-nav-in{max-width:1080px;margin:0 auto;padding-inline:22px;height:52px;display:flex;align-items:center;gap:26px}
+.au-brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.au-brand img{width:26px;height:26px;border-radius:7px;flex:none}
+.au-brand span{font-size:15px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.au-brand small{font-size:15px;font-weight:400;color:var(--st-ink2)}
+.au-nav a{font-size:13px;color:var(--st-ink);text-decoration:none;opacity:.82}
+.au-nav a:hover{opacity:1}
+@media (max-width:560px){.au-nav a.au-opt{display:none}.au-brand small{display:none}}
+
+/* hero */
+.au-top-hero{text-align:center;padding-top:clamp(56px,9vw,96px);overflow:hidden;position:relative}
+.au-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--st-ink);margin:0 0 14px}
+.au-eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--st-hi);box-shadow:0 0 0 3px var(--st-mark)}
+.au-display{font-size:clamp(60px,12vw,120px);line-height:.98;font-weight:700;letter-spacing:-.05em;margin:0}
+.au-lede{font-size:clamp(23px,3.4vw,34px);line-height:1.16;font-weight:600;letter-spacing:-.022em;max-width:760px;margin:22px auto 0;text-wrap:balance}
+.au-lede span{color:var(--st-ink2)}
+.au-byline{font-size:14px;color:var(--st-ink3);margin:18px 0 0}
+.au-ctas{display:flex;gap:26px;justify-content:center;align-items:center;margin-top:30px;flex-wrap:wrap}
+.au-btn{display:inline-block;background:var(--st-accent);color:#fff;border-radius:980px;padding:12px 23px;font-size:17px;font-weight:500;text-decoration:none;border:0;cursor:pointer}
+.au-btn:hover{filter:brightness(1.25)}
+.au-lnk{background:none;border:0;padding:0;color:var(--st-link);font-size:17px;text-decoration:none;cursor:pointer}
+.au-lnk::after{content:"\00a0›"}
+.au-lnk:hover{text-decoration:underline}
+.au-phones{display:flex;justify-content:center;align-items:flex-start;margin-top:clamp(40px,6vw,64px);height:clamp(300px,52vw,560px)}
+.au-hp{flex:none;border:0;padding:0;background:none;cursor:pointer;width:27%;max-width:290px;margin:0 -2.5%;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.au-hp img{display:block;width:100%;height:auto;filter:drop-shadow(0 28px 50px rgba(0,0,0,.2))}
+.au-hp.au-c{width:31%;max-width:330px;z-index:2}
+.au-hp.au-l{transform:translateY(12%) rotate(-5deg)}
+.au-hp.au-r{transform:translateY(12%) rotate(5deg)}
+.au-hp.au-l:hover{transform:translateY(9%) rotate(-5deg)}.au-hp.au-r:hover{transform:translateY(9%) rotate(5deg)}.au-hp.au-c:hover{transform:translateY(-3%)}
+
+/* sections */
+.au-sec{padding-block:clamp(72px,10vw,120px)}
+.au-sec.au-white{background:var(--st-card)}
+.au-kicker{font-size:15px;font-weight:600;color:var(--st-ink2);margin:0 0 12px}
+.au-h2{font-size:clamp(34px,5.2vw,56px);line-height:1.06;font-weight:700;letter-spacing:-.035em;margin:0;text-wrap:balance}
+.au-h2 span{color:var(--st-ink3)}
+.au-split{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,6vw,80px);align-items:end}
+.au-split p{margin:0;font-size:clamp(17px,1.7vw,21px);line-height:1.45;color:var(--st-ink2);letter-spacing:-.01em}
+.au-split p b{color:var(--st-ink);font-weight:600}
+.au-split p + p{margin-top:16px}
+.au-stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(48px,7vw,80px);border-top:1px solid var(--st-hair)}
+.au-stat{padding:28px 20px 0 0}
+.au-stat b{display:block;font-size:clamp(40px,5.5vw,64px);font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.au-stat span{display:block;font-size:15px;color:var(--st-ink2);margin-top:10px;max-width:22ch}
+.au-notes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px);margin-top:clamp(48px,7vw,72px)}
+.au-note h3{font-size:19px;font-weight:600;letter-spacing:-.015em;margin:0 0 8px}
+.au-note p{margin:0;font-size:15.5px;line-height:1.5;color:var(--st-ink2)}
+.au-note .au-ic{width:36px;height:36px;border-radius:10px;background:var(--st-ground);display:grid;place-items:center;margin-bottom:16px}
+.au-note .au-ic svg{width:19px;height:19px;stroke:var(--st-accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ideas */
+.au-ideas-h{margin-bottom:clamp(32px,5vw,48px)}
+.au-list{background:var(--st-card);border-radius:28px;padding-inline:clamp(20px,4vw,44px)}
+.au-idea{display:grid;grid-template-columns:56px 1fr 220px;gap:20px;align-items:start;padding-block:clamp(26px,3.5vw,36px);border-top:1px solid var(--st-hair)}
+.au-idea:first-child{border-top:0}
+.au-idea .au-num{font-size:15px;font-weight:600;color:var(--st-ink3);font-variant-numeric:tabular-nums;padding-top:6px}
+.au-idea h3{font-size:clamp(21px,2.4vw,26px);line-height:1.2;font-weight:600;letter-spacing:-.022em;margin:0 0 8px}
+.au-idea p{margin:0 0 12px;font-size:17px;line-height:1.5;color:var(--st-ink2);max-width:58ch}
+.au-idea p code{font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--st-ink);background:var(--st-ground);padding:2px 7px;border-radius:6px}
+.au-idea .au-lnk{font-size:15px}
+.au-imp{text-align:right}
+.au-imp .au-v{font-size:clamp(30px,3.6vw,40px);font-weight:700;letter-spacing:-.035em;line-height:1;font-variant-numeric:tabular-nums;color:var(--st-accent)}
+.au-imp .au-l{font-size:13.5px;color:var(--st-ink2);margin-top:8px}
+.au-band{margin-top:20px;background:var(--st-accent);color:#fff;border-radius:28px;padding:clamp(32px,5vw,56px);display:grid;grid-template-columns:1fr auto;gap:clamp(28px,5vw,64px);align-items:center}
+.au-band .au-k{font-size:15px;font-weight:600;color:rgba(255,255,255,.62);margin:0 0 10px}
+.au-band h3{font-size:clamp(24px,3vw,32px);line-height:1.18;font-weight:600;letter-spacing:-.022em;margin:0;text-wrap:balance}
+.au-band .au-fn{font-size:13px;line-height:1.5;color:rgba(255,255,255,.55);margin:16px 0 0;max-width:52ch}
+.au-nums{display:flex;gap:clamp(28px,4vw,48px)}
+.au-nums small{display:block;font-size:13px;color:rgba(255,255,255,.62)}
+.au-nums b{display:block;font-size:clamp(48px,6.5vw,76px);font-weight:700;letter-spacing:-.045em;line-height:1;color:var(--st-hi);font-variant-numeric:tabular-nums;margin:4px 0 8px}
+.au-nums span{font-size:14px;color:rgba(255,255,255,.8)}
+.au-band .au-btn{background:var(--st-hi);color:var(--st-accent);font-weight:600;margin-top:26px}
+
+/* prototype */
+.au-proto-h{text-align:center;max-width:720px;margin:0 auto}
+.au-proto-h p{font-size:clamp(17px,1.7vw,21px);color:var(--st-ink2);margin:14px 0 0}
+.au-seg{display:flex;gap:4px;justify-content:center;margin:clamp(28px,4vw,40px) auto 0;padding:4px;background:var(--st-ground);border-radius:980px;width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.au-seg::-webkit-scrollbar{display:none}
+.au-chip{flex:none;display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--st-ink2);font-size:13.5px;font-weight:500;padding:8px 14px;border-radius:980px;cursor:pointer;white-space:nowrap}
+.au-chip:hover{color:var(--st-ink)}
+.au-chip.on{background:var(--st-card);color:var(--st-ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.au-chip i{font-style:normal;font-size:11px;font-weight:700;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--st-hi);color:var(--st-accent)}
+.au-stage{display:grid;grid-template-columns:auto minmax(0,420px);gap:clamp(32px,6vw,72px);justify-content:center;align-items:center;margin-top:clamp(28px,4vw,44px)}
+.phone{width:390px;height:844px;border-radius:56px;padding:10px;background:#0b0d10;box-shadow:0 0 0 1.5px #3a3d42,0 40px 90px rgba(0,0,0,.25);max-width:calc(100vw - 44px)}
+.phone-in{position:relative;width:100%;height:100%;border-radius:46px;overflow:hidden;background:var(--b-bg)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#000;z-index:9}
+.sbar{position:absolute;top:0;left:0;right:0;height:52px;display:flex;justify-content:space-between;align-items:center;padding:4px 32px 0;font:600 15px -apple-system,system-ui,sans-serif;color:var(--b-ink);z-index:8;pointer-events:none}
+.au-pn{background:var(--st-ground);border-radius:28px;padding:clamp(26px,3.5vw,38px)}
+.au-pn-k{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--st-ink)}
+.au-pn-k i{width:8px;height:8px;border-radius:50%;background:var(--st-hi);box-shadow:0 0 0 3px var(--st-mark)}
+.au-pn-k.au-ctx{color:var(--st-ink2)}.au-pn-k.au-ctx i{background:var(--st-ink3);box-shadow:none}
+.au-pn-t{font-size:clamp(24px,2.6vw,30px);line-height:1.12;font-weight:700;letter-spacing:-.028em;margin:10px 0 14px;text-wrap:balance}
+.au-pn-h{margin:0;font-size:17px;line-height:1.55;color:var(--st-ink2)}
+.au-pn-h b{color:var(--st-ink);font-weight:600}
+.au-pn-o{margin-top:24px;padding-top:22px;border-top:1px solid var(--st-hair)}
+.au-pn-o .au-lab{font-size:13px;font-weight:600;color:var(--st-ink3)}
+.au-pn-o .au-val{font-size:clamp(38px,4.4vw,50px);font-weight:700;letter-spacing:-.04em;line-height:1.05;color:var(--st-accent);margin-top:6px;font-variant-numeric:tabular-nums}
+.au-pn-o .au-sub{font-size:14px;color:var(--st-ink2);margin-top:4px}
+.au-pn-a{margin:18px 0 0;font-size:14px;line-height:1.5;color:var(--st-ink2)}
+.au-pn-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:28px;padding-top:18px;border-top:1px solid var(--st-hair);font-size:13px;color:var(--st-ink3)}
+.au-pn-nav button{background:var(--st-card);border:0;border-radius:980px;padding:8px 15px;font-size:14px;font-weight:500;color:var(--st-ink);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.au-pn-nav button:disabled{opacity:.35;cursor:default}
+.au-hint{text-align:center;font-size:14px;color:var(--st-ink3);margin:22px 0 0}
+
+/* footer */
+.au-foot{padding-block:56px 72px;border-top:1px solid var(--st-hair)}
+.au-foot details{border-bottom:1px solid var(--st-hair);padding-bottom:18px}
+.au-foot summary{cursor:pointer;font-size:17px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.au-foot summary::-webkit-details-marker{display:none}
+.au-foot summary::after{content:"+";font-size:24px;font-weight:300;color:var(--st-ink2)}
+.au-foot details[open] summary::after{content:"−"}
+.au-srcs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 48px;margin-top:18px}
+.au-srcs h4{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--st-ink3);margin:18px 0 6px}
+.au-srcs dl{margin:0}.au-srcs dt{font-size:14.5px;font-weight:600;margin-top:10px}
+.au-srcs dd{margin:3px 0 0;font-size:14px;line-height:1.5;color:var(--st-ink2)}
+.au-fine{font-size:12.5px;line-height:1.6;color:var(--st-ink3);margin:22px 0 0;max-width:80ch}
+.au-cta-line{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:36px}
+.au-cta-line p{margin:0;font-size:clamp(19px,2.2vw,24px);font-weight:600;letter-spacing:-.02em;max-width:34ch}
+
+@media (max-width:900px){
+  .au-split,.au-band{grid-template-columns:1fr}
+  .au-notes{grid-template-columns:1fr}
+  .au-idea{grid-template-columns:40px 1fr}
+  .au-imp{grid-column:2;text-align:left;display:flex;align-items:baseline;gap:10px}
+  .au-imp .au-l{margin:0}
+  .au-imp .au-v{white-space:nowrap}
+  .au-stage{grid-template-columns:1fr;justify-items:center}
+  .au-pn{width:100%;max-width:520px}
+  .au-srcs{grid-template-columns:1fr}
+}
+@media (max-width:560px){.au-stats{grid-template-columns:1fr}.au-stat{padding:22px 0 0}.au-nums{flex-direction:column;gap:18px}}
+
+/* ================= extras (audit side): video, language, phone view + QR, paywall today vs proposed, ?tour ================= */
+[hidden]{display:none!important}
+/* the device never scrolls: off-screen slides would otherwise make it scrollable by focus / scrollIntoView */
+.phone-in,.scr{overflow:clip}
+/* hero: walkthrough link */
+.au-play::before{content:"▶";font-size:.72em;margin-right:7px;position:relative;top:-1px}
+/* video dialog */
+.au-vid{border:0;padding:0;background:transparent;max-width:min(1120px,94vw);width:100%;overflow:visible}
+.au-vid::backdrop{background:rgba(0,0,0,.74);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.au-vid-in{background:#000;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.au-vid video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+.au-vid-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 4px 0;font-size:14px}
+.au-vid-bar a{color:#fff;opacity:.85}
+.au-vid-x{background:rgba(255,255,255,.16);border:0;color:#fff;border-radius:980px;padding:8px 16px;font-size:14px;cursor:pointer}
+/* language switch */
+.au-langrow{display:flex;justify-content:center;align-items:center;gap:12px;margin:18px 0 0;font-size:13.5px;color:var(--st-ink2);flex-wrap:wrap}
+.au-lsw{display:inline-flex;gap:2px;padding:3px;background:var(--st-ground);border-radius:980px}
+.au-lsw button{border:0;background:none;padding:6px 13px;border-radius:980px;font-size:13.5px;font-weight:500;color:var(--st-ink2);cursor:pointer;white-space:nowrap}
+.au-lsw button.on{background:var(--st-card);color:var(--st-ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+/* QR card (desktop) / full-screen button (phone) */
+.au-qr{display:flex;align-items:center;gap:18px;margin:26px auto 0;max-width:500px;background:var(--st-ground);border-radius:22px;padding:14px 22px 14px 14px}
+.au-qr img{width:112px;height:112px;border-radius:12px;image-rendering:pixelated;flex:none;background:#fff}
+.au-qr b{display:block;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.au-qr p{margin:4px 0 0;font-size:14.5px;line-height:1.45;color:var(--st-ink2)}
+.au-mobw{display:none;text-align:center;margin-top:22px}
+@media (max-width:900px){.au-qr{display:none}.au-mobw{display:block}}
+/* paywall: today vs proposed */
+.au-cmp{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr) minmax(0,290px);gap:clamp(24px,4vw,52px);align-items:center;margin-top:clamp(32px,5vw,52px)}
+.au-cmp figure{margin:0;text-align:center}
+.au-cmp figure img{display:block;width:100%;height:auto;filter:drop-shadow(0 24px 44px rgba(0,0,0,.18))}
+.au-cmp figcaption{margin-top:14px;font-size:15px;font-weight:600}
+.au-cmp figcaption span{color:var(--st-ink2);font-weight:400}
+.au-cmp-go{border:0;padding:0;background:none;cursor:pointer;display:block;width:100%;transition:transform .3s}
+.au-cmp-go:hover{transform:translateY(-4px)}
+.au-chg{list-style:none;margin:0;background:var(--st-card);border-radius:24px;padding:4px clamp(18px,2.4vw,28px)}
+.au-chg li{padding:15px 0;border-top:1px solid var(--st-hair)}
+.au-chg li:first-child{border-top:0}
+.au-chg h4{margin:0 0 7px;font-size:16px;font-weight:600;letter-spacing:-.01em;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.au-chg h4 i{font-style:normal;font-size:12px;font-weight:600;color:var(--st-accent);background:var(--st-mark);border-radius:6px;padding:2px 8px;white-space:nowrap}
+.au-was,.au-now{display:grid;grid-template-columns:78px 1fr;gap:8px;font-size:14.5px;line-height:1.42}
+.au-was{color:var(--st-ink3)}
+.au-now{color:var(--st-ink);margin-top:3px}
+.au-was em,.au-now em{font-style:normal;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding-top:2px}
+.au-now em{color:var(--st-link)}
+.au-kept{margin:22px 0 0;font-size:14px;color:var(--st-ink2);text-align:center}
+@media (max-width:900px){.au-cmp{grid-template-columns:1fr 1fr;gap:18px}.au-chg{grid-column:1 / -1;order:3}.au-was,.au-now{grid-template-columns:70px 1fr}}
+
+/* ?app — the prototype full screen on a real phone, with a bar that opens the idea panel */
+html.appmode,html.appmode body{height:100%;overflow:hidden;background:#000}
+html.appmode .au-nav,html.appmode .au-top-hero,html.appmode #why,html.appmode #ideas,html.appmode #compare,html.appmode .au-foot,
+html.appmode .au-proto-h,html.appmode #prototype .au-langrow,html.appmode #chips,html.appmode .au-hint,html.appmode .au-qr,html.appmode .au-mobw{display:none!important}
+html.appmode #prototype{padding:0;background:#000}
+html.appmode #prototype .au-wrap{padding:0;max-width:none}
+html.appmode .au-stage{display:block;margin:0}
+html.appmode .phone{position:fixed;top:0;left:0;right:0;margin:0 auto;width:min(100%,480px);height:calc(100% - 56px - env(safe-area-inset-bottom,0px));max-width:none;border-radius:0;padding:0;box-shadow:none;background:#000}
+html.appmode .phone-in{border-radius:0}
+html.appmode .island,html.appmode .sbar{display:none}
+html.appmode .scr .s-pad{padding-top:max(58px,calc(env(safe-area-inset-top,0px) + 16px))}
+html.appmode .scr .s-x,html.appmode .scr .s-lang{top:max(54px,calc(env(safe-area-inset-top,0px) + 10px))}
+.au-appbar,.au-scrim{display:none}
+html.appmode .au-appbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:70;height:calc(56px + env(safe-area-inset-bottom,0px));padding:0 12px env(safe-area-inset-bottom,0px) 16px;align-items:center;gap:12px;background:#0b0b0c;border-top:1px solid rgba(255,255,255,.1);color:#fff}
+.au-ab-why{flex:1;min-width:0;display:flex;align-items:center;gap:9px;background:none;border:0;color:#fff;font-size:14px;font-weight:500;text-align:left;cursor:pointer;padding:0}
+.au-ab-why i{width:8px;height:8px;border-radius:50%;background:var(--st-hi);flex:none}
+.au-ab-why span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.au-ab-why em{font-style:normal;color:rgba(255,255,255,.6);margin-left:auto;flex:none;font-size:13px}
+.au-appbar .au-lsw{background:rgba(255,255,255,.12)}
+.au-appbar .au-lsw button{color:rgba(255,255,255,.75);padding:5px 11px}
+.au-appbar .au-lsw button.on{background:#fff;color:#000}
+html.appmode #panel{position:fixed;left:0;right:0;bottom:0;z-index:80;max-width:none;width:auto;margin:0 auto;border-radius:24px 24px 0 0;max-height:78%;overflow:auto;transform:translateY(105%);transition:transform .3s cubic-bezier(.3,.7,.2,1);padding-bottom:calc(26px + env(safe-area-inset-bottom,0px))}
+html.appmode.au-open #panel{transform:none}
+html.appmode.au-open .au-scrim{display:block;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,.5)}
+
+/* ?tour — 1280×720 walkthrough frames (record-video.sh renders them into assets/walkthrough.mp4) */
+.au-tour{display:none}
+html.tourmode,html.tourmode body{overflow:hidden;background:var(--st-ground)}
+html.tourmode body *{visibility:hidden}
+html.tourmode .phone,html.tourmode .phone *,html.tourmode .au-tour,html.tourmode .au-tour *{visibility:visible}
+html.tourmode .phone{position:fixed;left:170px;top:44px;margin:0;transform:scale(.755);transform-origin:0 0;box-shadow:0 0 0 1.5px #3a3d42,0 34px 80px rgba(0,0,0,.22);z-index:5;max-width:none}
+html.tourmode .au-tour{display:block;position:fixed;inset:0;z-index:6;pointer-events:none;color:var(--st-ink)}
+.au-tb{position:absolute;left:590px;top:30px;display:flex;align-items:center;gap:10px;font-size:16px;font-weight:600}
+.au-tb img{width:26px;height:26px;border-radius:7px}
+.au-tb small{font-size:16px;font-weight:400;color:var(--st-ink2)}
+.au-tby{position:absolute;right:48px;top:32px;font-size:14px;color:var(--st-ink3)}
+.au-tcap{position:absolute;left:590px;right:60px;top:50%;transform:translateY(-50%)}
+.au-tk{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:600}
+.au-tk i{width:9px;height:9px;border-radius:50%;background:var(--st-hi);box-shadow:0 0 0 3px var(--st-mark)}
+.au-tk.au-ctx{color:var(--st-ink2)}.au-tk.au-ctx i{background:var(--st-ink3);box-shadow:none}
+.au-tt{font-size:46px;line-height:1.06;font-weight:700;letter-spacing:-.035em;margin:14px 0 14px;text-wrap:balance}
+.au-tl{font-size:23px;line-height:1.36;color:var(--st-ink2);letter-spacing:-.01em;margin:0;max-width:28ch}
+.au-to{margin-top:28px;padding-top:22px;border-top:1px solid var(--st-hair)}
+.au-to small{display:block;font-size:14px;font-weight:600;color:var(--st-ink3)}
+.au-to b{display:inline-block;font-size:62px;font-weight:700;letter-spacing:-.045em;line-height:1.08;color:var(--st-accent);margin-top:4px}
+.au-to span{display:block;font-size:16px;color:var(--st-ink2);margin-top:2px}
+.au-tprog{position:absolute;left:48px;right:48px;bottom:22px;height:4px;border-radius:3px;background:var(--st-hair);overflow:hidden}
+.au-tprog i{display:block;height:100%;background:var(--st-hi)}
+.au-ttap{position:absolute;left:0;top:0;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.5);box-shadow:0 0 0 2.5px rgba(255,255,255,.9),0 6px 16px rgba(0,0,0,.35);opacity:0}
+.au-tintro,.au-tend{position:absolute;inset:0;background:var(--st-ground);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0}
+.au-tintro .au-lede{margin-top:18px}
+.au-te-h{font-size:46px;line-height:1.08;font-weight:700;letter-spacing:-.035em;margin:0;max-width:18ch;text-wrap:balance}
+.au-te-n{display:flex;gap:64px;margin-top:30px}
+.au-te-n small{display:block;font-size:14px;color:var(--st-ink2)}
+.au-te-n b{display:block;font-size:76px;font-weight:700;letter-spacing:-.045em;line-height:1;color:var(--st-accent);margin:4px 0 6px}
+.au-te-n span{font-size:15px;color:var(--st-ink2)}
+.au-te-q{display:flex;align-items:center;gap:18px;margin-top:34px;background:var(--st-card);border-radius:20px;padding:12px 24px 12px 12px;text-align:left}
+.au-te-q img{width:104px;height:104px;border-radius:10px;image-rendering:pixelated}
+.au-te-q b{display:block;font-size:18px;font-weight:600}
+.au-te-q span{display:block;font-size:15px;color:var(--st-link);margin-top:3px}
+.au-te-f{position:absolute;bottom:44px;left:0;right:0;font-size:13px;color:var(--st-ink3);margin:0}
+
+/* ---------- screen engine (layout only, no colours) ---------- */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--b-bg);color:var(--b-ink);font-family:var(--b-font);
+     transform:translateX(100%);transition:transform .32s cubic-bezier(.3,.7,.2,1);overflow:hidden;text-align:left;line-height:normal;font-size:16px}
+.scr.is-active{transform:none;z-index:2}.scr.is-past{transform:translateX(-28%)}.scr.under{transform:none;z-index:1}
+.scr.sheet{transform:translateY(100%)}.scr.sheet.is-active{transform:none}
+.nofx,.nofx *{transition:none!important}
+.shot .scr{transition:none!important}
+/* ?phone — just the device at (10,10), for shoot.sh and hero-stills.sh (&clear = transparent ground) */
+.phoneonly body{background:#141615}
+.phoneonly.clear body{background:transparent}
+.phoneonly body *{visibility:hidden}
+.phoneonly .phone,.phoneonly .phone *{visibility:visible}
+.phoneonly .phone{position:fixed;top:10px;left:10px;z-index:99;box-shadow:none;max-width:none;margin:0}
+
+/* SCREENS:START — styles for the app's screens. RULE: colours only via var(--b-*), or white/black
+   with alpha (scrims, shadows). RULE: no class name that the audit page above already uses
+   (.hero .btn .chip .list .idea .note .stat .band .num .hint .display .split …) — brand-check refuses collisions. */
+.s-dark{background:var(--b-dark)}
+.s-pad{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;padding:56px 18px 26px;min-height:0}
+.s-top{display:flex;align-items:center;justify-content:space-between;height:34px;margin-bottom:6px;color:var(--b-ink)}
+.s-top.s-w{color:#fff}
+.s-back{white-space:nowrap;background:none;border:0;padding:0;font-weight:600;font-size:13px;letter-spacing:.05em;color:inherit;cursor:pointer;font-family:var(--b-font)}
+.s-dh{font-family:var(--b-font);font-weight:900;font-style:italic;font-size:40px;line-height:.94;letter-spacing:-.04em;text-transform:uppercase;margin:0;color:var(--b-ink)}
+.s-dh em{font-style:inherit;color:var(--b-primary)}
+.s-dh.s-w{color:#fff}
+.s-sub{margin:10px 0 0;font-size:15px;line-height:1.42;color:var(--b-ink2)}
+.s-sub.s-w{color:rgba(255,255,255,.72)}
+.s-sub b{color:var(--b-ink);font-weight:600}
+.s-cta{width:100%;border:0;border-radius:var(--b-pill);background:var(--b-primary);color:var(--b-primary-ink);font-weight:600;font-size:15px;letter-spacing:.06em;padding:19px 16px;cursor:pointer;font-family:var(--b-font);flex:none}
+.s-dcta{background:var(--b-dark);color:#fff}
+.s-ic{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.s-lab{font-size:10.5px;letter-spacing:.08em;color:var(--b-ink2);text-transform:uppercase}
+
+/* intro */
+.s-photo{position:absolute;top:0;left:0;width:100%;height:430px;object-fit:cover;object-position:50% 20%;z-index:0}
+.s-fade{position:absolute;left:0;right:0;top:200px;height:232px;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,0),var(--b-dark) 92%)}
+.s-lang{position:absolute;top:58px;right:18px;z-index:4;border:0;border-radius:var(--b-pill);background:rgba(255,255,255,.16);color:#fff;font-size:12px;font-weight:600;letter-spacing:.06em;padding:7px 12px;cursor:pointer;font-family:var(--b-font)}
+.s-intro{justify-content:flex-end}
+.s-logo{width:148px;height:auto;display:block;margin:0 0 22px}
+.s-intro .s-dh{font-size:50px}
+.s-intro .s-cta{margin-top:26px}
+.s-fine{margin:14px 0 0;text-align:center;font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,.5)}
+
+/* activity sheet */
+.s-mapbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 100%;z-index:0}
+.s-scrim{position:absolute;inset:0;z-index:1;background:rgba(0,0,0,.35)}
+.s-sheet{position:absolute;left:0;right:0;bottom:0;z-index:3;background:var(--b-bg);border-radius:26px 26px 0 0;padding:12px 18px 34px}
+.s-grab{display:block;width:44px;height:4px;border-radius:4px;background:var(--b-line);margin:0 auto 18px}
+.s-h2{margin:0;font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--b-ink)}
+.s-opt{display:flex;align-items:center;gap:14px;width:100%;margin-top:10px;background:var(--b-bg);border:1.5px solid var(--b-line);border-radius:14px;padding:16px;font-weight:500;font-size:16px;color:var(--b-ink);text-align:left;cursor:pointer;font-family:var(--b-font)}
+.s-opt.on{background:var(--b-sel);border-color:var(--b-sel)}
+.s-radio{margin-left:auto;flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--b-line);background:var(--b-bg);position:relative}
+.s-opt.on .s-radio{border-color:var(--b-bg)}
+.s-opt.on .s-radio::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--b-ink)}
+.s-sheet .s-opt:first-of-type{margin-top:18px}
+
+/* goal */
+.s-prog{height:4px;border-radius:4px;background:var(--b-line);overflow:hidden;margin:2px 0 22px}
+.s-prog i{display:block;height:100%;background:var(--b-primary)}
+.s-goal .s-dh{font-size:42px}
+.s-goal .s-sub{margin-bottom:12px}
+.s-opt2 span{display:flex;flex-direction:column;gap:3px}
+.s-opt2 b{font-weight:600;font-size:16px}
+.s-opt2 small{font-size:13px;color:var(--b-ink2)}
+.s-opt2 .s-ic{width:24px;height:24px}
+
+/* route planner */
+.s-map{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 34%;z-index:0}
+.s-phead{position:relative;z-index:3;background:var(--b-bg);border-radius:0 0 24px 24px;padding:58px 14px 14px;display:flex;align-items:center;gap:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);color:var(--b-ink)}
+.s-stats{flex:1;display:flex;justify-content:center;gap:8px}
+.s-stat{display:flex;align-items:baseline;gap:3px;white-space:nowrap;font-size:9px;letter-spacing:.04em;color:var(--b-ink2)}
+.s-stat b{font-size:17px;font-weight:500;color:var(--b-ink);letter-spacing:-.02em}
+.s-stat .s-ic{width:11px;height:11px;align-self:center;color:var(--b-accent2)}
+.s-q{flex:none;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--b-ink);font-size:11px;font-weight:700;display:grid;place-items:center}
+.s-loopp{position:absolute;top:108px;left:0;right:0;margin:0 auto;width:max-content;z-index:3;background:var(--b-bg);border-radius:0 0 12px 12px;padding:4px 12px 6px;font-size:10px;letter-spacing:.04em;color:var(--b-gtext);display:flex;align-items:center;gap:5px}
+.s-loopp i{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--b-gtext)}
+.s-pbot{position:absolute;left:0;right:0;bottom:0;z-index:3;background:var(--b-bg);border-radius:24px 24px 0 0;padding:20px 16px 28px;box-shadow:0 -6px 18px rgba(0,0,0,.16)}
+.s-coach .s-lab{color:var(--b-gtext);font-weight:600}
+.s-coach p{margin:6px 0 16px;font-size:15.5px;line-height:1.42;color:var(--b-ink)}
+.s-tools{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.s-tb{width:40px;height:40px;border-radius:50%;background:var(--b-soft);display:grid;place-items:center;color:var(--b-ink)}
+.s-tb .s-ic{width:18px;height:18px}
+.s-tb.s-off{color:var(--b-line)}
+.s-terr{display:flex;align-items:center;gap:8px;margin-left:auto;font-size:14px;color:var(--b-ink)}
+.s-tog{width:50px;height:30px;border-radius:var(--b-pill);background:var(--b-soft);border:1.5px solid var(--b-line);position:relative;cursor:pointer;padding:0}
+.s-tog::after{content:"";position:absolute;top:2px;left:2px;width:23px;height:23px;border-radius:50%;background:var(--b-bg);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s}
+.s-tog.on{background:var(--b-primary);border-color:var(--b-primary)}
+.s-tog.on::after{left:22px}
+.s-draw{display:flex;align-items:center;gap:6px;background:var(--b-dark);color:#fff;border:0;border-radius:12px;padding:11px 16px;font-size:15px;font-weight:500;font-family:var(--b-font);margin-left:8px}
+.s-draw .s-ic{width:16px;height:16px}
+
+/* payoff */
+.s-zoom{position:absolute;top:0;left:0;width:100%;height:520px;object-fit:cover;z-index:0}
+.s-top .s-chip{background:rgba(0,0,0,.45);color:#fff;border-radius:var(--b-pill);padding:8px 13px}
+.s-you{position:absolute;top:220px;left:0;right:0;margin:0 auto;width:max-content;z-index:3;display:flex;align-items:center;gap:10px;background:var(--b-bg);border-radius:18px;padding:9px 16px 9px 9px;box-shadow:0 10px 26px rgba(0,0,0,.35)}
+.s-av{width:42px;height:42px;border-radius:50%;border:2.5px solid var(--b-primary);background:var(--b-deep);color:var(--b-primary);display:grid;place-items:center}
+.s-av .s-ic{width:20px;height:20px}
+.s-you b{display:block;font-size:17px;font-weight:600;color:var(--b-ink)}
+.s-you small{display:inline-flex;align-items:center;gap:4px;margin-top:3px;background:var(--b-sel);color:var(--b-deep);border-radius:6px;padding:2px 7px;font-size:10.5px;letter-spacing:.04em}
+.s-card{position:absolute;left:0;right:0;bottom:0;z-index:3;background:var(--b-bg);border-radius:28px 28px 0 0;padding:26px 20px 26px}
+.s-card .s-dh{font-size:34px}
+.s-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:20px 0 22px;padding-top:16px;border-top:1px solid var(--b-line)}
+.s-nums div{text-align:center}
+.s-nums b{display:block;margin-top:5px;font-size:18px;font-weight:500;color:var(--b-ink);white-space:nowrap}
+
+/* pro in game terms */
+.s-pro{padding-bottom:22px}
+.s-tagpro{background:var(--b-dark);color:var(--b-primary);border-radius:8px;padding:5px 9px;font-size:11px;letter-spacing:.08em}
+.s-pro .s-dh{font-size:38px;margin-top:4px}
+.s-rvs{display:flex;flex-direction:column;gap:9px;margin:16px 0 16px}
+.s-rv{background:var(--b-bg);border:1.5px solid var(--b-line);border-radius:var(--b-radius);padding:12px 14px 11px}
+.s-rv.s-first{border-color:var(--b-sel);background:var(--b-surface)}
+.s-rvh{display:flex;justify-content:space-between;align-items:center;font-size:15.5px;font-weight:600;color:var(--b-ink);margin-bottom:9px}
+.s-tag{display:none;background:var(--b-dark);color:var(--b-primary);border-radius:6px;padding:3px 7px;font-size:9.5px;letter-spacing:.08em}
+.s-rv.s-first .s-tag{display:inline-block}
+.s-bar{display:flex;height:20px}
+.s-bf{background:linear-gradient(90deg,var(--b-line),var(--b-sel));clip-path:polygon(0 0,100% 0,calc(100% - 9px) 100%,0 100%);border-radius:6px 0 0 6px}
+.s-bp{flex:1;margin-left:-4px;background:var(--b-grad);clip-path:polygon(9px 0,100% 0,100% 100%,0 100%);border-radius:0 6px 6px 0}
+.s-rvv{display:flex;justify-content:space-between;margin-top:7px;font-size:11px;letter-spacing:.03em;color:var(--b-ink2)}
+.s-rvv span:last-child{color:var(--b-ink);font-weight:600}
+.s-rv p{margin:6px 0 0;font-size:13px;line-height:1.35;color:var(--b-ink2)}
+.s-pro .s-cta{margin-top:auto}
+
+/* paywall */
+.s-globe{position:absolute;top:0;left:0;width:100%;height:auto;z-index:0}
+.s-x{position:absolute;top:56px;right:16px;z-index:4;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;font-size:15px;cursor:pointer;font-family:var(--b-font)}
+.s-pwlogo{position:absolute;top:62px;left:20px;z-index:3;display:flex;align-items:center;gap:8px}
+.s-pwlogo img{width:92px;height:auto}
+.s-pwlogo span{background:var(--b-primary);color:var(--b-primary-ink);border-radius:6px;padding:3px 7px;font-size:11px;font-weight:600;letter-spacing:.08em}
+.s-area{position:absolute;top:112px;left:20px;z-index:3;display:flex;align-items:center;gap:6px;background:var(--b-bg);border-radius:var(--b-pill);padding:6px 12px;font-size:13px;color:var(--b-ink)}
+.s-area .s-ic{width:13px;height:13px;color:var(--b-gtext);fill:var(--b-primary)}
+.s-pws{position:absolute;left:0;right:0;bottom:0;top:max(160px,calc(100% - 548px));z-index:3;background:var(--b-bg);border-radius:28px 28px 0 0;padding:24px 18px 18px;display:flex;flex-direction:column}
+.s-pws .s-dh{font-size:37px}
+.s-proof{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin:12px 0 0;font-size:11.5px;letter-spacing:.02em;color:var(--b-ink2)}
+.s-proof b{color:var(--b-ink);font-weight:600}
+.s-stars{color:var(--b-yellow);letter-spacing:1px;font-size:13px}
+.s-ticks{list-style:none;margin:18px 0 18px;padding:0;display:flex;flex-direction:column;gap:8px}
+.s-ticks li{display:flex;align-items:center;gap:10px;font-size:14.5px;color:var(--b-ink)}
+.s-ticks i{flex:none;width:20px;height:20px;border-radius:50%;background:var(--b-sel);display:grid;place-items:center}
+.s-ticks .s-ic{width:13px;height:13px;stroke-width:2.4}
+.s-plan{display:flex;align-items:center;gap:12px;width:100%;margin-top:8px;background:var(--b-bg);border:1.5px solid var(--b-line);border-radius:14px;padding:12px 14px;color:var(--b-ink);text-align:left;cursor:pointer;font-family:var(--b-font)}
+.s-plan.on{background:var(--b-sel);border-color:var(--b-sel)}
+.s-plan .s-radio{margin-left:0}
+.s-plan.on .s-radio{border-color:var(--b-bg)}
+.s-plan.on .s-radio::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--b-ink)}
+.s-pn{flex:1;display:flex;flex-direction:column;gap:2px}
+.s-pn b{font-size:16px;font-weight:600}
+.s-pn small{font-size:12.5px;color:var(--b-ink2)}
+.s-pp{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.s-pp b{font-size:15px;font-weight:600;white-space:nowrap}
+.s-save{background:var(--b-dark);color:var(--b-primary);border-radius:6px;padding:3px 7px;font-size:9.5px;letter-spacing:.08em;white-space:nowrap}
+.s-plan1{margin-top:auto}
+.s-pws .s-cta{margin-top:14px}
+.s-pf{margin:9px 0 0;text-align:center;font-size:12px;color:var(--b-ink2)}
+.s-legal{display:flex;justify-content:center;gap:18px;margin-top:6px;font-size:11px;color:var(--b-ink2)}
+
+/* offer on close */
+.s-offer{background:rgba(0,0,0,.52)}
+.s-ocard{margin-top:auto;position:relative;z-index:2;background:var(--b-dark);color:#fff;border-radius:28px 28px 0 0;padding:12px 20px 30px}
+.s-ocard .s-grab{background:rgba(255,255,255,.22);margin-bottom:20px}
+.s-ocard .s-lab{color:var(--b-primary);font-weight:600}
+.s-ocard .s-dh{font-size:38px;margin-top:10px}
+.s-obox{display:flex;justify-content:space-between;align-items:center;margin:20px 0 8px;border:1.5px solid var(--b-primary);border-radius:var(--b-radius);padding:14px 16px;background:rgba(255,255,255,.04)}
+.s-obox small{display:block;font-size:10.5px;letter-spacing:.08em;color:var(--b-primary)}
+.s-obox b{display:block;margin-top:4px;font-size:17px;font-weight:600}
+.s-obox .s-op{text-align:right}
+.s-obox .s-op b{font-size:26px;font-weight:500;margin:0}
+.s-obox .s-op span{font-size:12px;color:rgba(255,255,255,.6)}
+.s-onote{margin:0 0 20px;font-size:13px;color:rgba(255,255,255,.6)}
+.s-no{display:block;margin:14px auto 0;background:none;border:0;color:rgba(255,255,255,.6);font-size:14px;cursor:pointer;font-family:var(--b-font)}
+/* SCREENS:END */
+</style>
+</head>
+<body>
+
+<nav class="au-nav" aria-label="Sections">
+  <div class="au-nav-in">
+    <div class="au-brand">
+      <img src="assets/brand/appstore-icon.jpg" alt="">
+      <span>Growth Audit <small>· INTVL</small></span>
+    </div>
+    <a class="au-opt" href="#why">Why this</a>
+    <a href="#ideas">Five ideas</a>
+    <a href="#prototype">Prototype</a>
+    <a class="au-opt" href="#compare" id="navCompare" hidden>Paywall</a>
+  </div>
+</nav>
+
+<header class="au-top-hero" id="top">
+  <div class="au-wrap">
+    <p class="au-eyebrow"><i></i>Growth Audit · September 2026</p>
+    <h1 class="au-display">INTVL</h1>
+    <p class="au-lede">Five ideas to turn more INTVL players into Pro subscribers. <span>Each one built into your own first session, so you can tap through it.</span></p>
+    <p class="au-byline">Prepared by Adapty for the INTVL team</p>
+    <div class="au-ctas">
+      <a class="au-btn" href="#ideas">See the five ideas</a>
+      <a class="au-lnk" href="#prototype">Open the prototype</a>
+      <button type="button" class="au-lnk au-play" id="heroVideo" hidden>Watch the 30-second walkthrough</button>
+    </div>
+  </div>
+  <!-- filled from CONTENT.hero: three screen ids → assets/hero/<id>.png (make them with hero-stills.sh) -->
+  <div class="au-phones" id="heroPhones" aria-label="Three screens from the prototype"></div>
+</header>
+
+<section class="au-sec au-white" id="why">
+  <div class="au-wrap">
+    <div class="au-split">
+      <div>
+        <p class="au-kicker">Why you’re seeing this</p>
+        <h2 class="au-h2">30,000 subscription apps taught us what moves conversion. <span>Here’s what we’d test first at INTVL.</span></h2>
+      </div>
+      <div>
+        <p>Adapty runs subscriptions for <b>more than 30,000 apps</b>, so we see which onboarding and paywall changes lift revenue across the whole market, not just inside one app.</p>
+        <p>We pointed that at INTVL. We took <b>your own screens, copy and prices</b> from your App Store listing and site, and rebuilt the path from install to paywall around the five ideas with the most potential.</p>
+      </div>
+    </div>
+    <div class="au-stats">
+      <div class="au-stat"><b>30,000+</b><span>apps run their subscriptions on Adapty</span></div>
+      <div class="au-stat"><b>5</b><span>ideas, each built as a working screen</span></div>
+      <div class="au-stat"><b>0</b><span>changes to your art direction</span></div>
+    </div>
+    <div class="au-notes">
+      <div class="au-note">
+        <div class="au-ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></div>
+        <h3>Five ideas, not fifteen</h3>
+        <p>We’re not proposing to rebuild every screen. These are the changes with the highest potential, ranked by what we’d test first.</p>
+      </div>
+      <div class="au-note">
+        <div class="au-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17"/></svg></div>
+        <h3>Your design, not ours</h3>
+        <p>Every colour, control and price in the prototype is INTVL’s. We changed the order and what gets shown.</p>
+      </div>
+      <div class="au-note">
+        <div class="au-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v6.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-13A1.5 1.5 0 0 1 5.5 4H15"/></svg></div>
+        <h3>We hope you haven’t tried these yet</h3>
+        <p>We work from the outside, so we can’t see your live flow or your test history. If you’ve already run one of these, tell us and we’ll go deeper on the rest.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="au-sec" id="ideas">
+  <div class="au-wrap">
+    <div class="au-ideas-h">
+      <p class="au-kicker">The shortlist</p>
+      <h2 class="au-h2">Five ideas. <span>Ranked by what we’d test first.</span></h2>
+    </div>
+    <div class="au-list" id="ideaList"></div>
+    <div class="au-band">
+      <div>
+        <p class="au-k">Potential outcome, based on Adapty data</p>
+        <h3>Together they work on three moments: what a new player sees before the paywall, what the paywall says, and what happens when someone says “not now”.</h3>
+        <p class="au-fn" id="bandFn"></p>
+        <a class="au-btn" href="#prototype">Tap through the prototype</a>
+      </div>
+      <div class="au-nums" id="bandNums"></div>
+    </div>
+  </div>
+</section>
+
+<section class="au-sec au-white" id="prototype">
+  <div class="au-wrap">
+    <div class="au-proto-h">
+      <p class="au-kicker">The prototype</p>
+      <h2 class="au-h2">Every idea, inside your own onboarding.</h2>
+      <p>Tap through it like a new user, or jump straight to an idea. Green numbers mark the screens that carry one.</p>
+    </div>
+    <div class="au-langrow" id="langRow" hidden><span>Prototype language</span><div class="au-lsw" id="langSw" role="group" aria-label="Prototype language"></div></div>
+    <div class="au-seg" id="chips" role="tablist" aria-label="Screens"></div>
+    <div class="au-stage">
+      <div class="phone"><div class="phone-in">
+        <div class="island"></div>
+        <div class="sbar"><span>9:41</span><span>●●● ▮</span></div>
+
+<!-- SCREENS:START — one section.scr[data-id=ID] per screen, in flow order. Only the screens an idea lands on,
+     plus the context needed to read the flow (~8–10). Wiring: data-go="<id>" · data-back · data-pick="key:value"
+     (+ data-advance="<id>") · data-toggle="key:value" · data-bind="key" / "label:key" / "count:key" ·
+     data-requires="key" · data-show="key:value" · data-input="key" · class="scr sheet" slides up (offer paywall).
+     RULE: images only from assets/ (their app, their site, App Store) — never stock, never hotlinked.
+     Extras: data-t="key" = translatable (markup is CONTENT.langs[0]; other languages in CONTENT.i18n) — keep data-t on
+     leaf-ish elements, never on an element that also carries data-bind/data-pick/data-show;
+     data-langtoggle cycles the language (their own language pill); data-aside keeps a screen out of the flow
+     (the paywall TODAY, rendered only for the side-by-side still). -->
+
+<section class="scr s-dark" data-id="intro">
+  <img class="s-photo" src="assets/crop/photo.png" alt="">
+  <div class="s-fade"></div>
+  <button class="s-lang mono" data-langtoggle aria-label="Language"><span data-t="lang">EN</span></button>
+  <div class="s-pad s-intro">
+    <img class="s-logo" src="assets/crop/logo.png" alt="INTVL">
+    <h1 class="s-dh s-w dsp" data-t="i_h">The world<br>is the game.</h1>
+    <p class="s-sub s-w" data-t="i_s">Every walk, run or ride becomes a game on the real map. Close a loop, and the ground inside is yours.</p>
+    <button class="s-cta mono" data-go="mode"><span data-t="i_c">START YOUR CONQUEST</span></button>
+    <p class="s-fine mono" data-t="i_f">FREE TO PLAY · RUN OR RIDE</p>
+  </div>
+</section>
+
+<section class="scr s-dark" data-id="mode">
+  <img class="s-mapbg" src="assets/crop/globe.png" alt="">
+  <div class="s-scrim"></div>
+  <div class="s-pad">
+    <div class="s-top s-w mono"><button class="s-back" data-back>‹ <span data-t="back">BACK</span></button></div>
+  </div>
+  <div class="s-sheet">
+    <i class="s-grab"></i>
+    <h2 class="s-h2" data-t="m_h">Choose your activity type</h2>
+    <p class="s-sub" data-t="m_s">Runs and rides each have their own territory game, so every battle is fair.</p>
+    <button class="s-opt" data-pick="mode:run" data-advance="goal"><svg class="s-ic" viewBox="0 0 24 24"><path d="M3 16.5h13.8a3.7 3.7 0 0 0 3.7-3.7c0-.9-.7-1.6-1.6-1.8l-5-1.1-2.6-3.6H8.2l.5 3.1-3.6 1.1z"/><path d="M3 19.5h18M9.5 12.5l1.5-1M12 13l1.5-1"/></svg><span data-t="m_run">Run / Walk</span><i class="s-radio"></i></button>
+    <button class="s-opt" data-pick="mode:ride" data-advance="goal"><svg class="s-ic" viewBox="0 0 24 24"><circle cx="5.5" cy="15.5" r="3.5"/><circle cx="18.5" cy="15.5" r="3.5"/><path d="M5.5 15.5l3.8-6.5h5.4l3.8 6.5M9.3 9l2.7 6.5h-6.5M13 6.5h3"/></svg><span data-t="m_ride">Bike / Ride</span><i class="s-radio"></i></button>
+  </div>
+</section>
+
+<section class="scr" data-id="goal">
+  <div class="s-pad s-goal">
+    <div class="s-top mono"><button class="s-back" data-back>‹ <span data-t="back">BACK</span></button></div>
+    <div class="s-prog"><i style="width:66%"></i></div>
+    <h1 class="s-dh dsp" data-t="g_h">How do you<br>want to play?</h1>
+    <p class="s-sub" data-t="g_s">Play it your way. You can switch focus whenever you want.</p>
+    <button class="s-opt s-opt2" data-pick="goal:turf" data-advance="plan"><svg class="s-ic" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span><b data-t="g_t">Rule my suburb or city</b><small data-t="g_t2">Become your area’s territory leader</small></span></button>
+    <button class="s-opt s-opt2" data-pick="goal:world" data-advance="plan"><svg class="s-ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg><span><b data-t="g_w">Be the best in the world</b><small data-t="g_w2">Chase the global leaderboard</small></span></button>
+    <button class="s-opt s-opt2" data-pick="goal:prizes" data-advance="plan"><svg class="s-ic" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8.5 20.5h7M10 17h4v3.5h-4z"/></svg><span><b data-t="g_p">Win real prizes</b><small data-t="g_p2">Hold ground, earn competition entries</small></span></button>
+    <button class="s-opt s-opt2" data-pick="goal:club" data-advance="plan"><svg class="s-ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 19.5c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5M15.5 14c3 0 5.5 1.8 5.5 5"/></svg><span><b data-t="g_c">Play with my club or friends</b><small data-t="g_c2">Private lobbies and club totals</small></span></button>
+  </div>
+</section>
+
+<section class="scr" data-id="plan">
+  <img class="s-map" src="assets/crop/planmap.png" alt="">
+  <div class="s-phead mono">
+    <button class="s-back" data-back>‹ <span data-t="back">BACK</span></button>
+    <div class="s-stats">
+      <span class="s-stat"><svg class="s-ic" viewBox="0 0 24 24"><path d="M5 19c4-1 3-6 7-7s3-6 7-7"/></svg><span data-t="p_dist">DISTANCE</span> <b data-t="p_d">3.93</b>km</span>
+      <span class="s-stat"><svg class="s-ic" viewBox="0 0 24 24"><path d="M12 3l8 9-8 9-8-9z"/></svg><span data-t="p_cap">CAPTURE</span> <b data-t="p_c">0.9</b>km²</span>
+    </div>
+    <span class="s-q">?</span>
+  </div>
+  <div class="s-loopp mono"><i></i><span data-t="p_loop">LOOP CLOSED</span></div>
+  <div class="s-pbot">
+    <div class="s-coach">
+      <div class="s-lab mono" data-t="p_k">YOUR FIRST CAPTURE</div>
+      <p id="planT">We drew a <b>3.93 km</b> loop near you. Run it once and the <b>0.9 km²</b> inside is yours.</p>
+    </div>
+    <div class="s-tools">
+      <span class="s-tb"><svg class="s-ic" viewBox="0 0 24 24"><path d="M4 9h11a5 5 0 0 1 0 10H9M8 5L4 9l4 4"/></svg></span>
+      <span class="s-tb s-off"><svg class="s-ic" viewBox="0 0 24 24"><path d="M20 9H9a5 5 0 0 0 0 10h6M16 5l4 4-4 4"/></svg></span>
+      <span class="s-tb"><svg class="s-ic" viewBox="0 0 24 24"><path d="M4 16l9-9 6 6-6 6H8zM13 19h7"/></svg></span>
+      <span class="s-terr"><span data-t="p_ter">Territories</span><button class="s-tog" data-toggle="lay:ter" aria-label="Territories"></button></span>
+      <span class="s-draw"><svg class="s-ic" viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16z"/></svg><span data-t="p_draw">Draw</span></span>
+    </div>
+    <button class="s-cta mono s-savebtn" data-go="claim"><span data-t="p_save">SAVE MY FIRST LOOP</span></button>
+  </div>
+</section>
+
+<section class="scr s-dark" data-id="claim">
+  <img class="s-zoom" src="assets/crop/loopzoom.png" alt="">
+  <div class="s-pad">
+    <div class="s-top s-w mono"><button class="s-back s-chip" data-back>‹ <span data-t="back">BACK</span></button></div>
+  </div>
+  <div class="s-you">
+    <span class="s-av"><svg class="s-ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-6.5 7-6.5s7 2.6 7 6.5"/></svg></span>
+    <span><b data-t="c_you">You</b><small class="mono"><svg class="s-ic" viewBox="0 0 24 24" style="width:10px;height:10px"><path d="M12 3l8 9-8 9-8-9z"/></svg><span data-t="c_chip">+0.9 KM²</span></small></span>
+  </div>
+  <div class="s-card">
+    <h1 class="s-dh dsp" id="claimH">Your first block of <em>your suburb</em></h1>
+    <p class="s-sub" id="claimS">Run this loop and 0.9 km² of your area is yours. Hold it, and you’re on your way to Territory Ruler.</p>
+    <div class="s-nums mono">
+      <div><span class="s-lab" data-t="p_dist">DISTANCE</span><b data-t="c_dv">3.93 KM</b></div>
+      <div><span class="s-lab" data-t="p_cap">CAPTURE</span><b data-t="c_cv">0.9 KM²</b></div>
+      <div><span class="s-lab" data-t="c_m">MODE</span><b id="claimM">RUN</b></div>
+    </div>
+    <button class="s-cta s-dcta mono" data-go="pro"><span data-t="cont">CONTINUE</span></button>
+  </div>
+</section>
+
+<section class="scr" data-id="pro">
+  <div class="s-pad s-pro">
+    <div class="s-top mono"><button class="s-back" data-back>‹ <span data-t="back">BACK</span></button><span class="s-tagpro">INTVL PRO</span></div>
+    <h1 class="s-dh dsp" data-t="r_h">Same loops.<br><em>More game.</em></h1>
+    <p class="s-sub" data-t="r_s">INTVL stays free to play. Pro adds the extras serious players ask for.</p>
+    <div class="s-rvs">
+      <div class="s-rv" data-card="en">
+        <div class="s-rvh"><span data-t="r_en">Competition entries</span><span class="s-tag mono" data-t="r_tag">YOUR GOAL</span></div>
+        <div class="s-bar"><i class="s-bf" style="width:12%"></i><i class="s-bp"></i></div>
+        <div class="s-rvv mono"><span data-t="r_en_f">FREE · 1×</span><span data-t="r_en_p">PRO · 10×</span></div>
+        <p data-t="r_en_n">Same territory, 10x the entries into every prize competition.</p>
+      </div>
+      <div class="s-rv" data-card="lb">
+        <div class="s-rvh"><span data-t="r_lb">Leaderboards</span><span class="s-tag mono" data-t="r_tag">YOUR GOAL</span></div>
+        <div class="s-bar"><i class="s-bf" style="width:34%"></i><i class="s-bp"></i></div>
+        <div class="s-rvv mono"><span data-t="r_lb_f">FREE · LIMITED VIEW</span><span data-t="r_lb_p">PRO · COMPLETE</span></div>
+        <p data-t="r_lb_n">Every rank, from your area to the whole world.</p>
+      </div>
+      <div class="s-rv" data-card="rp">
+        <div class="s-rvh"><span data-t="r_rp">Route planner</span><span class="s-tag mono" data-t="r_tag">YOUR GOAL</span></div>
+        <div class="s-bar"><i class="s-bf" style="width:34%"></i><i class="s-bp"></i></div>
+        <div class="s-rvv mono"><span data-t="r_rp_f">FREE · BASIC</span><span data-t="r_rp_p">PRO · FULL + HEATMAPS</span></div>
+        <p data-t="r_rp_n">Plan every capture before you head out.</p>
+      </div>
+    </div>
+    <button class="s-cta mono" data-go="paywall"><span data-t="r_c">SEE PRO PLANS</span></button>
+  </div>
+</section>
+
+<section class="scr s-dark" data-id="paywall">
+  <img class="s-globe" src="assets/crop/globe.png" alt="">
+  <button class="s-x" data-go="offer" aria-label="Close">✕</button>
+  <div class="s-pwlogo"><img src="assets/crop/logo.png" alt="INTVL"><span class="mono">PRO</span></div>
+  <div class="s-area mono"><svg class="s-ic" viewBox="0 0 24 24"><path d="M12 3l8 9-8 9-8-9z"/></svg><span data-t="w_area">0.9 km² planned</span></div>
+  <div class="s-pws">
+    <h1 class="s-dh dsp" id="payH">Rule <em>your suburb</em></h1>
+    <div class="s-proof mono"><span><span class="s-stars">★★★★★</span> <b data-t="w_r">4.7 · 5.3K ratings</b></span><span data-t="w_c">2.4M competitors · 182 countries</span></div>
+    <ul class="s-ticks">
+      <li><i><svg class="s-ic" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><span data-t="w_t1">10x entries into every prize competition</span></li>
+      <li><i><svg class="s-ic" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><span data-t="w_t2">Complete leaderboards, every rank</span></li>
+      <li><i><svg class="s-ic" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><span data-t="w_t3">Full route planner and heatmaps</span></li>
+    </ul>
+    <button class="s-plan s-plan1" data-pick="plan:year"><i class="s-radio"></i><span class="s-pn"><b data-t="w_yn">Annual</b><small data-t="w_yp">$79.99 a year</small></span><span class="s-pp"><b class="mono" data-t="w_ym">$6.67/mo</b><span class="s-save mono" data-t="w_save">SAVE 17%</span></span></button>
+    <button class="s-plan" data-pick="plan:month"><i class="s-radio"></i><span class="s-pn"><b data-t="w_mn">Monthly</b><small data-t="w_mp">$7.99 a month</small></span><span class="s-pp"><b class="mono" data-t="w_mm">$7.99/mo</b></span></button>
+    <p class="s-pf" data-t="w_f">Cancel anytime. INTVL stays free to play.</p>
+    <button class="s-cta mono"><span data-show="plan:year"><span data-t="w_cy">CONTINUE WITH ANNUAL</span></span><span data-show="plan:month"><span data-t="w_cm">CONTINUE WITH MONTHLY</span></span></button>
+    <div class="s-legal"><span data-t="w_terms">Terms</span><span data-t="w_priv">Privacy</span><span data-t="w_rest">Restore</span></div>
+  </div>
+</section>
+
+<section class="scr sheet s-dark s-offer" data-id="offer">
+  <div class="s-ocard">
+    <i class="s-grab"></i>
+    <div class="s-lab mono" data-t="o_k">BEFORE YOU GO</div>
+    <h1 class="s-dh s-w dsp" data-t="o_h">Your first year<br><em>for $49.99</em></h1>
+    <p class="s-sub s-w" data-t="o_s">Normally $79.99 a year. That’s $4.17 a month for every loop you plan and every entry you earn.</p>
+    <div class="s-obox">
+      <div><small class="mono" data-t="o_b1">INTVL PRO · ANNUAL</small><b data-t="o_b2">First year</b></div>
+      <div class="s-op"><b class="mono" data-t="o_p">$49.99</b><span class="mono" data-t="o_pm">$4.17/mo</span></div>
+    </div>
+    <p class="s-onote" data-t="o_n">38% less than your standard $79.99 a year.</p>
+    <button class="s-cta mono"><span data-t="o_c">CLAIM MY FIRST YEAR</span></button>
+    <button class="s-no" data-back><span data-t="o_no">No thanks, keep playing free</span></button>
+  </div>
+</section>
+<!-- SCREENS:END -->
+
+      </div></div>
+      <div class="au-pn" id="panel" aria-live="polite"></div>
+    </div>
+    <p class="au-hint">Close the paywall with ✕ to see idea 5.</p>
+    <!-- shown when CONTENT.liveUrl is set: assets/qr-app.png = qr.swift "<liveUrl>?app" -->
+    <div class="au-qr" id="qrCard" hidden><img src="assets/qr-app.png" alt="QR code that opens the prototype full screen"><div><b>Try it on your phone</b><p>Scan to open the prototype full screen, the way a new user would see it.</p></div></div>
+    <div class="au-mobw" id="qrMob" hidden><a class="au-btn" href="?app">Open it full screen</a></div>
+  </div>
+</section>
+
+<!-- the paywall TODAY vs PROPOSED — built from CONTENT.compare (stills: assets/hero/<today>.png, <proposed>.png) -->
+<section class="au-sec" id="compare" hidden><div class="au-wrap" id="cmpBody"></div></section>
+
+<footer class="au-foot" id="sources">
+  <div class="au-wrap">
+    <details id="srcDetails">
+      <summary>Where the numbers come from</summary>
+      <div class="au-srcs" id="srcBody"></div>
+    </details>
+    <p class="au-fine" id="fine"></p>
+    <div class="au-cta-line">
+      <p>Every screen here can be built and A/B tested in Adapty’s Flow Builder, with no app release.</p>
+      <a class="au-btn" href="https://adapty.io/flow-paywall-builder/" target="_blank" rel="noopener">About Flow Builder</a>
+    </div>
+  </div>
+</footer>
+
+<!-- extras: video dialog (CONTENT.video), ?app bar, ?tour overlay (CONTENT.tour) -->
+<dialog class="au-vid" id="vid" aria-label="Walkthrough video">
+  <div class="au-vid-in"><video id="vidEl" controls muted playsinline preload="none"></video></div>
+  <div class="au-vid-bar"><a id="vidDl" download>Download the MP4</a><button type="button" class="au-vid-x" id="vidX">Close</button></div>
+</dialog>
+<div class="au-scrim" id="abScrim"></div>
+<div class="au-appbar" id="appbar">
+  <button type="button" class="au-ab-why" id="abWhy"><i></i><span id="abT"></span><em>Why ↑</em></button>
+  <div class="au-lsw" id="abLang" role="group" aria-label="Language"></div>
+</div>
+<div class="au-tour" aria-hidden="true">
+  <div class="au-tb"><img src="assets/brand/appstore-icon.jpg" alt="">Growth Audit <small>· INTVL</small></div>
+  <div class="au-tby">Prepared by Adapty</div>
+  <div class="au-tcap" id="tCap"></div>
+  <div class="au-ttap" id="tTap"></div>
+  <div class="au-tprog"><i id="tProg"></i></div>
+  <div class="au-tintro" id="tIntro"></div>
+  <div class="au-tend" id="tEnd"></div>
+</div>
+
+<!-- CONTENT — all the audit's words and numbers, as data. Schema (brand-check enforces it):
+     ideas  : 3–5 rows, ranked (the audit is five ideas, never fifteen). screen = the screen that shows it.
+     panel  : one entry per screen. idea = its number in ideas (1-based) or 0 for a context screen.
+              why on an idea screen reads "<b>Try</b> X, <b>because</b> Y." in ≤ 45 words; iv = its range.
+              why on a context screen is one line saying what it sets up.
+     hero   : three screen ids shown as stills in the hero — run hero-stills.sh after the screens are done.
+     outcome: combined "up to" numbers, PS-deck style, never above the ceiling of the per-idea ranges.
+     sources: public facts only — App Store, their site, their screens. No sales research on this page.
+     EXTRAS (each one hides itself when left empty):
+     langs  : [{"code":"en","name":"English"},{"code":"es","name":"Español · Spain prices"}] — first = the markup's language
+     i18n   : {"es": {"<data-t key>": "text with {tokens}"}} — every data-t key, for every language after the first
+     prices : {"es": {"yr": "39,99 €", …}} — {tokens} in i18n strings; that storefront's real IAP prices
+     labelsI18n: {"es": {"goal": {"a": "…"}}} — C.labels per language (data-bind="label:…")
+     liveUrl: final Pages URL (QR card + video end card); the QR file encodes liveUrl + "?app"
+     video / poster: "assets/walkthrough.mp4" / "assets/walkthrough-poster.jpg" (record-video.sh)
+     compare: {today, proposed, kicker, title, sub, todayCap, rows:[{h, idea, was, now}], kept} — today = a data-aside screen
+     tour   : {segments:[{id, d, st, tap:[selector-in-screen, ms], pop, reveal, end}], captions:{id:{n|k, t, l, o, ol}},
+              introLede, endTitle} — ~30 s total; the last segment has end:true (the end card) -->
+<script type="application/json" id="content">
+{
+  "app": "INTVL",
+  "state": {"mode": "run", "goal": "turf", "plan": "year", "lay": []},
+  "labels": {"goal": {"turf": "your suburb", "world": "the world stage", "prizes": "real prizes", "club": "your club"}, "mode": {"run": "Run", "ride": "Ride"}},
+  "chips": {"intro": "Welcome", "mode": "Run or ride", "goal": "Goal", "plan": "First loop", "claim": "Payoff", "pro": "Pro", "paywall": "Paywall", "offer": "Offer"},
+  "hero": ["claim", "paywall", "plan"],
+  "outcome": {"cr": "+25%", "arpu": "+10%"},
+  "ideas": [
+    {"screen": "plan", "title": "Let people plan their first capture before the paywall", "what": "The full route planner is one of Pro’s three headline features, but a new player can’t value it before they’ve run. Draw one real loop near them in onboarding (3.93 km, 0.9 km² inside) so the game is concrete before you ask for money.", "impact": "+10–20%", "il": "CR to purchase"},
+    {"screen": "claim", "title": "Ask how they want to play, then say it back", "what": "Your listing already splits players: some chase the global leaderboard, others want their own suburb, and Bike Mode splits runners from riders. Ask both, then name the answer on the payoff and in the paywall headline (“Rule your suburb”), not a generic Pro pitch.", "impact": "+8–15%", "il": "CR to purchase"},
+    {"screen": "pro", "title": "Sell Pro in the game’s own terms", "what": "“10x boost on competition entries” is your strongest line, and it reads like a spec. Show Free vs Pro on your own rivals bar, with the player’s goal first: entries for prize hunters, complete leaderboards for the world stage, the full planner for suburb players.", "impact": "+5–12%", "il": "CR to purchase"},
+    {"screen": "paywall", "title": "Show the annual saving and the proof next to the button", "what": "$79.99 a year is $6.67 a month, 17% less than paying $7.99 monthly. Put that, your 4.7★ from 5.3K ratings and “2.4M competitors in 182 countries” beside the plans, where the decision is made.", "impact": "+5–10%", "il": "ARPU, more players on annual"},
+    {"screen": "offer", "title": "Catch the people who close the paywall", "what": "INTVL is free to play, so closing the paywall usually means “not now”, not “no”. Offer your real $49.99 annual price once, as the first year, then let them keep playing free. No countdown, no inflated strikethrough.", "impact": "+4–8%", "il": "CR to purchase"}
+  ],
+  "panel": {
+    "intro":   {"idea": 0, "t": "Your line, your art", "why": "Your own opening line and photo. It sets up a first session that ends with a loop the player can go and run."},
+    "mode":    {"idea": 0, "t": "Run or ride", "why": "Your activity sheet, word for word. The answer carries into the loop, the payoff and the paywall."},
+    "goal":    {"idea": 0, "t": "How do you want to play?", "why": "Four ways to play, in your listing’s own words. Sets up idea 2: the answer decides the payoff and the paywall headline."},
+    "plan":    {"idea": 1, "t": "Plan the first capture before the paywall", "why": "<b>Try</b> drawing one real loop near the player during onboarding, with its distance and area, <b>because</b> the full route planner is a headline Pro feature that nobody can value until they see it work on their own streets.", "iv": "CR +10–20%", "il": "to purchase"},
+    "claim":   {"idea": 2, "t": "Say their answer back", "why": "<b>Try</b> naming what they picked (their suburb, the world stage, prizes or their club, run or ride) on the payoff and again in the paywall headline, <b>because</b> a paywall that repeats the player’s own goal beats one generic Pro pitch.", "iv": "CR +8–15%", "il": "to purchase", "also": "Pick a different goal on the previous screen: this headline, the Pro card order and the paywall headline all change."},
+    "pro":     {"idea": 3, "t": "Pro in the game’s own terms", "why": "<b>Try</b> showing Free vs Pro on your own rivals bar, with the player’s goal first, <b>because</b> “10x competition entries” and “complete leaderboards” land harder in the game’s units than as a feature list.", "iv": "CR +5–12%", "il": "to purchase"},
+    "paywall": {"idea": 4, "t": "The saving and the proof, next to the button", "why": "<b>Try</b> leading with $6.67 a month on annual, “save 17%”, your 4.7★ rating and 2.4M competitors beside the plans, <b>because</b> the decision happens in a few seconds here, and a monthly figure makes annual the easy pick.", "iv": "ARPU +5–10%", "il": "more players on annual", "also": "The headline repeats the goal from idea 2."},
+    "offer":   {"idea": 5, "t": "Catch the close", "why": "<b>Try</b> one honest offer when someone closes the paywall, your real $49.99 annual price as the first year, <b>because</b> in a free-to-play game a close usually means “not now”, and hooked players take a better price.", "iv": "CR +4–8%", "il": "to purchase, from people who close the paywall"}
+  },
+  "langs": [{"code": "en", "name": "English"}, {"code": "de", "name": "Deutsch · German prices"}],
+  "i18n": {
+    "de": {
+      "lang": "DE",
+      "i_h": "Die Welt<br>ist das Spiel.",
+      "i_s": "Jeder Spaziergang, jeder Lauf, jede Fahrt wird zum Spiel auf der echten Karte. Schließ eine Runde, und alles darin gehört dir.",
+      "i_c": "STARTE DEINE EROBERUNG",
+      "i_f": "KOSTENLOS · LAUFEN ODER RADELN",
+      "back": "ZURÜCK",
+      "m_h": "Wähle deine Aktivität",
+      "m_s": "Läufe und Fahrten haben jeweils ihr eigenes Territoriumsspiel, damit jeder Kampf fair bleibt.",
+      "m_run": "Laufen / Gehen",
+      "m_ride": "Rad / Fahren",
+      "g_h": "Wie willst<br>du spielen?",
+      "g_s": "Spiel auf deine Art. Du kannst deinen Fokus jederzeit ändern.",
+      "g_t": "Mein Viertel oder meine Stadt beherrschen",
+      "g_t2": "Werde Territorium-Leader deiner Gegend",
+      "g_w": "Der Beste der Welt werden",
+      "g_w2": "Jag die globale Rangliste",
+      "g_p": "Echte Preise gewinnen",
+      "g_p2": "Halte Gebiet, sammle Gewinnspiel-Lose",
+      "g_c": "Mit Club oder Freunden spielen",
+      "g_c2": "Private Lobbys und Club-Wertungen",
+      "p_dist": "DISTANZ",
+      "p_d": "3,93",
+      "p_cap": "EROBERT",
+      "p_c": "0,9",
+      "p_loop": "RUNDE GESCHLOSSEN",
+      "p_k": "DEINE ERSTE EROBERUNG",
+      "p_ter": "Territorien",
+      "p_draw": "Zeichnen",
+      "p_save": "ERSTE RUNDE SPEICHERN",
+      "c_you": "Du",
+      "c_chip": "+0,9 KM²",
+      "c_dv": "3,93 KM",
+      "c_cv": "0,9 KM²",
+      "c_m": "MODUS",
+      "cont": "WEITER",
+      "r_h": "Gleiche Runden.<br><em>Mehr Spiel.</em>",
+      "r_s": "INTVL bleibt kostenlos spielbar. Pro bringt die Extras, die ambitionierte Spieler wollen.",
+      "r_en": "Gewinnspiel-Lose",
+      "r_tag": "DEIN ZIEL",
+      "r_en_f": "GRATIS · 1×",
+      "r_en_p": "PRO · 10×",
+      "r_en_n": "Gleiches Gebiet, 10x so viele Lose in jedem Gewinnspiel.",
+      "r_lb": "Ranglisten",
+      "r_lb_f": "GRATIS · TEILANSICHT",
+      "r_lb_p": "PRO · VOLLSTÄNDIG",
+      "r_lb_n": "Jeder Rang, von deiner Gegend bis zur ganzen Welt.",
+      "r_rp": "Routenplaner",
+      "r_rp_f": "GRATIS · BASIS",
+      "r_rp_p": "PRO · VOLL + HEATMAPS",
+      "r_rp_n": "Plane jede Eroberung, bevor du losgehst.",
+      "r_c": "PRO-PLÄNE ANSEHEN",
+      "w_area": "0,9 km² geplant",
+      "w_r": "4,6 · 1.047 Bewertungen",
+      "w_c": "2,4 Mio. Spieler · 182 Länder",
+      "w_t1": "10x Lose in jedem Gewinnspiel",
+      "w_t2": "Vollständige Ranglisten, jeder Rang",
+      "w_t3": "Voller Routenplaner und Heatmaps",
+      "w_yn": "Jährlich",
+      "w_yp": "{yr} pro Jahr",
+      "w_ym": "{yrm}/Monat",
+      "w_save": "17 % SPAREN",
+      "w_mn": "Monatlich",
+      "w_mp": "{mo} pro Monat",
+      "w_mm": "{mo}/Monat",
+      "w_f": "Jederzeit kündbar. INTVL bleibt kostenlos spielbar.",
+      "w_cy": "WEITER MIT JÄHRLICH",
+      "w_cm": "WEITER MIT MONATLICH",
+      "w_terms": "AGB",
+      "w_priv": "Datenschutz",
+      "w_rest": "Wiederherstellen",
+      "o_k": "BEVOR DU GEHST",
+      "o_h": "Dein erstes Jahr<br><em>für {off}</em>",
+      "o_s": "Sonst {yr} pro Jahr. Das sind {offm} im Monat für jede Runde, die du planst, und jedes Los, das du sammelst.",
+      "o_b1": "INTVL PRO · JÄHRLICH",
+      "o_b2": "Erstes Jahr",
+      "o_p": "{off}",
+      "o_pm": "{offm}/Monat",
+      "o_n": "38 % weniger als die üblichen {yr} pro Jahr.",
+      "o_c": "MEIN ERSTES JAHR SICHERN",
+      "o_no": "Nein danke, gratis weiterspielen"
+    }
+  },
+  "prices": {"de": {"yr": "64,99 €", "mo": "6,49 €", "yrm": "5,42 €", "off": "39,99 €", "offm": "3,33 €"}},
+  "labelsI18n": {"de": {"goal": {"turf": "dein Viertel", "world": "die Weltbühne", "prizes": "echte Preise", "club": "dein Club"}, "mode": {"run": "Laufen", "ride": "Radfahren"}}},
+  "liveUrl": "https://eddieatadapty.github.io/intvl-flow-rebuild/",
+  "video": "assets/walkthrough.mp4",
+  "poster": "assets/walkthrough-poster.jpg",
+  "compare": null,
+  "tour": {
+    "introLede": "Five ideas to turn more INTVL players into Pro subscribers.",
+    "endTitle": "Five ideas, built into your own first session.",
+    "segments": [
+      {"id": "intro", "d": 3200, "st": {"mode": "none", "goal": "none"}, "tap": [".s-cta", 2700]},
+      {"id": "mode", "d": 1700, "tap": ["[data-pick=\"mode:run\"]", 1300]},
+      {"id": "mode", "d": 500, "st": {"mode": "run"}},
+      {"id": "goal", "d": 1900, "tap": ["[data-pick=\"goal:turf\"]", 1450]},
+      {"id": "goal", "d": 600, "st": {"goal": "turf"}},
+      {"id": "plan", "d": 3000, "reveal": ".s-coach", "tap": [".s-savebtn", 2550]},
+      {"id": "claim", "d": 3200, "pop": ".s-you", "tap": [".s-cta", 2800]},
+      {"id": "pro", "d": 3400, "tap": [".s-cta", 3000]},
+      {"id": "paywall", "d": 3000},
+      {"id": "paywall", "d": 1200, "st": {"plan": "month"}, "tap": ["[data-pick=\"plan:month\"]", 150]},
+      {"id": "paywall", "d": 1400, "st": {"plan": "year"}, "tap": ["[data-pick=\"plan:year\"]", 150]},
+      {"id": "paywall", "d": 1000, "tap": [".s-x", 600]},
+      {"id": "offer", "d": 3400},
+      {"id": "offer", "d": 3500, "end": true}
+    ],
+    "captions": {
+      "intro":   {"k": "Context", "t": "Your line, your art", "l": "Your own opening, with one clear start."},
+      "mode":    {"k": "Context", "t": "Run or ride", "l": "Your activity sheet. The answer carries through the flow."},
+      "goal":    {"k": "Context", "t": "How do you want to play?", "l": "Four ways to play, in your listing’s own words."},
+      "plan":    {"n": 1, "t": "Plan the first capture", "l": "One real loop near them, before the paywall.", "o": "+10–20%", "ol": "CR to purchase"},
+      "claim":   {"n": 2, "t": "Say their answer back", "l": "The payoff names their goal: their suburb, on foot.", "o": "+8–15%", "ol": "CR to purchase"},
+      "pro":     {"n": 3, "t": "Pro in the game’s terms", "l": "Free vs Pro on your rivals bar, their goal first.", "o": "+5–12%", "ol": "CR to purchase"},
+      "paywall": {"n": 4, "t": "Saving and proof at the button", "l": "$6.67 a month, save 17%, 4.7★ from 5.3K ratings.", "o": "+5–10%", "ol": "ARPU"},
+      "offer":   {"n": 5, "t": "Catch the close", "l": "Your real $49.99 annual price, once, as the first year.", "o": "+4–8%", "ol": "CR to purchase"}
+    }
+  },
+  "grounding": "Impact ranges are Adapty’s expected effect from teardowns and A/B tests across 30,000+ subscription apps, not measured lift for INTVL. They overlap, so they don’t add up.",
+  "sources": [
+    {"group": "Prices", "items": [
+      {"dt": "$79.99 a year", "dd": "“INTVL Annual Subscription” in the <a href=\"https://apps.apple.com/us/app/intvl/id6472631698\" target=\"_blank\" rel=\"noopener\">App Store (US)</a> In-App Purchases list; the same annual price is quoted in a public review (<a href=\"https://nikmat.substack.com/p/intvl-the-running-app-that-turns\" target=\"_blank\" rel=\"noopener\">nikmat, Mar 2026</a>)."},
+      {"dt": "$7.99 a month", "dd": "App Store (US) In-App Purchases; the same review quotes about $7.99 a month. We haven’t seen your live paywall, so this is the pair we assumed."},
+      {"dt": "$6.67 a month · save 17%", "dd": "Computed: $79.99 ÷ 12, against 12 × $7.99 = $95.88."},
+      {"dt": "$49.99 first year (offer)", "dd": "A real $49.99 SKU in the App Store (US) In-App Purchases list. We assumed it’s an annual price; $4.17 = $49.99 ÷ 12, 38% below $79.99."},
+      {"dt": "64,99 € · 6,49 € · 39,99 €", "dd": "The same SKUs in the <a href=\"https://apps.apple.com/de/app/intvl/id6472631698\" target=\"_blank\" rel=\"noopener\">App Store (Germany)</a>; 5,42 € and 3,33 € a month computed from them."},
+      {"dt": "Not used", "dd": "$12.99, $8.99 and $59.99 SKUs (also listed; we can’t tell which plans they are), and the INR regional prices."}
+    ]},
+    {"group": "Proof", "items": [
+      {"dt": "4.7★ · 5.3K ratings", "dd": "App Store (US): 4.73 from 5,346 ratings, 30 Sep 2026."},
+      {"dt": "4,6★ · 1.047 Bewertungen", "dd": "App Store (Germany), used on the German paywall."},
+      {"dt": "2.4M competitors · 182 countries", "dd": "<a href=\"https://www.intvl.com.au/\" target=\"_blank\" rel=\"noopener\">intvl.com.au</a> (“Compete on the world stage”)."}
+    ]},
+    {"group": "Features and copy", "items": [
+      {"dt": "What Pro unlocks", "dd": "intvl.com.au FAQ: “the full route planner, complete leaderboards and a 10x boost on competition entries”. Heatmaps: <a href=\"https://sportssteps.com/is-intvl-free-plans-pricing/\" target=\"_blank\" rel=\"noopener\">sportssteps.com pricing review</a>."},
+      {"dt": "Welcome, activity sheet, planner", "dd": "“The world is the game.”, “Choose your activity type”, “Run / Walk · Bike / Ride”, “LOOP CLOSED”, the 3.93 km / 0.9 km² loop: App Store screenshots 3, 4 and 10."},
+      {"dt": "Four ways to play", "dd": "App Store description: global leaderboard, your own suburb or city, real prizes, clubs. “Territory Ruler” is your own in-app title (screenshot 6)."},
+      {"dt": "German copy", "dd": "Our translation, not INTVL’s."}
+    ]},
+    {"group": "Design", "items": [
+      {"dt": "Colours", "dd": "intvl.com.au CSS (#50F82E, #0F170D, #103209, #B9FCAB, #EEFEEA) and pixels sampled from App Store screenshots 2, 3, 5, 6 and 7."},
+      {"dt": "Type", "dd": "Geist and Geist Mono are your site’s fonts. Inter Tight Black Italic stands in for the display face on your listing, which is licensed."},
+      {"dt": "Art", "dd": "The photo, the INT_VL wordmark, the route-planner map and the globe are cut from your App Store screenshots 1, 3, 6 and 10."}
+    ]},
+    {"group": "What we couldn’t see", "items": [
+      {"dt": "Your onboarding and paywall today", "dd": "INTVL isn’t in the screen libraries we use, and we haven’t walked your live flow, so there’s no side-by-side with your current paywall."},
+      {"dt": "Trial", "dd": "Whether Pro has a free trial (one listing site mentions 7 days on $12.99 monthly). The prototype doesn’t claim one."},
+      {"dt": "Your test history", "dd": "If you’ve already tested any of these, tell us and we’ll go deeper on the rest."}
+    ]}
+  ]
+}
+</script>
+
+<script>
+/* INTVL hooks: the answers (run/ride, how you want to play) drive the loop copy, the payoff, the Pro card order and the paywall headline */
+var TX = {
+  en: {
+    V: {run: 'Run', ride: 'Ride'},
+    M: {run: 'RUN', ride: 'RIDE'},
+    planT: 'We drew a <b>3.93 km</b> loop near you. {V} it once and the <b>0.9 km²</b> inside is yours.',
+    claimH: {turf: 'Your first block of <em>your suburb</em>', world: 'Your first step onto <em>the world stage</em>', prizes: '0.9 km² of <em>prize entries</em>', club: '0.9 km² for <em>your club</em>'},
+    claimS: {
+      turf: '{V} this loop and 0.9 km² of your area is yours. Hold it, and you’re on your way to Territory Ruler.',
+      world: '{V} this loop and 0.9 km² goes on the world leaderboard, against 2.4M competitors in 182 countries.',
+      prizes: 'Every bit of ground you hold earns entries into competitions with real prizes. {V} this loop to start.',
+      club: 'Your territory adds to your club’s total, so this one loop helps everyone you play alongside.'
+    },
+    payH: {turf: 'Rule <em>your suburb</em>', world: 'Climb <em>the world stage</em>', prizes: '10x your <em>prize entries</em>', club: 'Lead <em>your club</em>'}
+  },
+  de: {
+    V: {run: 'Lauf', ride: 'Fahr'},
+    M: {run: 'LAUF', ride: 'RAD'},
+    planT: 'Wir haben eine <b>3,93-km</b>-Runde in deiner Nähe gezeichnet. {V} sie einmal, und die <b>0,9 km²</b> darin gehören dir.',
+    claimH: {turf: 'Dein erster Block <em>im eigenen Viertel</em>', world: 'Dein erster Schritt <em>auf die Weltbühne</em>', prizes: '0,9 km² voller <em>Gewinnchancen</em>', club: '0,9 km² für <em>deinen Club</em>'},
+    claimS: {
+      turf: '{V} diese Runde, und 0,9 km² deiner Gegend gehören dir. Halte sie, und du bist auf dem Weg zum Territory Ruler.',
+      world: '{V} diese Runde, und 0,9 km² landen auf der Weltrangliste, gegen 2,4 Mio. Spieler in 182 Ländern.',
+      prizes: 'Jedes Stück Gebiet, das du hältst, bringt dir Lose für Gewinnspiele mit echten Preisen. {V} diese Runde, um zu starten.',
+      club: 'Dein Gebiet zählt zur Wertung deines Clubs, also hilft diese eine Runde allen, mit denen du spielst.'
+    },
+    payH: {turf: 'Beherrsche <em>dein Viertel</em>', world: 'Erklimm <em>die Weltbühne</em>', prizes: '10x mehr <em>Gewinnchancen</em>', club: 'Führe <em>deinen Club</em>'}
+  }
+};
+/* the goal decides which Pro card leads */
+var CARD_ORDER = {turf: ['rp', 'lb', 'en'], world: ['lb', 'en', 'rp'], prizes: ['en', 'lb', 'rp'], club: ['lb', 'en', 'rp']};
+window.onSync = function(S){
+  var L = TX[S.lang] || TX.en, g = L.claimH[S.goal] ? S.goal : 'turf', m = L.V[S.mode] ? S.mode : 'run';
+  function put(id, html){ var el = document.getElementById(id); if (el) el.innerHTML = html.replace('{V}', L.V[m]); }
+  put('planT', L.planT);
+  put('claimH', L.claimH[g]);
+  put('claimS', L.claimS[g]);
+  put('claimM', L.M[m]);
+  put('payH', L.payH[g]);
+  CARD_ORDER[g].forEach(function(k, i){
+    var c = document.querySelector('[data-card="' + k + '"]'); if (!c) return;
+    c.style.order = i; c.classList.toggle('s-first', i === 0);
+  });
+};
+</script>
+<script>
+/* ============ engine — generic, do not fork per app ============ */
+var C = JSON.parse(document.getElementById('content').textContent);
+var S = C.state, scr = {}, ORDER = [], hist = [], cur = null, Q = location.search;
+var SHOT = /[?&](shot|phone|tour)\b/.test(Q), HERO = /[?&]hero\b/.test(Q);
+/* a screen with data-aside (e.g. the paywall TODAY for the side-by-side) renders for stills but is not part of the flow */
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id] = s; if (!s.hasAttribute('data-aside')) ORDER.push(s.dataset.id); });
+if (/[?&]shot\b/.test(Q)) document.documentElement.classList.add('shot');
+if (/[?&]phone\b/.test(Q)) document.documentElement.classList.add('shot', 'phoneonly');
+if (/[?&]clear\b/.test(Q)) document.documentElement.classList.add('clear');
+var IDEAS = (C.ideas || []).length;
+
+/* ---- languages: markup is the first language; C.i18n[lang][data-t key] the others; {tokens} from C.prices[lang] ---- */
+var LANGS = C.langs || [], BASE = LANGS.length ? LANGS[0].code : 'en', LANG_DONE = BASE, BASE_LABELS = JSON.parse(JSON.stringify(C.labels || {}));
+if (!S.lang) S.lang = BASE;
+function fillP(s, l){ var P = (C.prices || {})[l] || {}; return String(s).replace(/\{(\w+)\}/g, function(m, k){ return k in P ? P[k] : m; }); }
+function applyLang(){
+  var l = S.lang || BASE; if (l === LANG_DONE) return;
+  var T = (C.i18n || {})[l] || {};
+  document.querySelectorAll('.phone [data-t]').forEach(function(el){
+    if (el._base == null) el._base = el.innerHTML;
+    el.innerHTML = l === BASE || T[el.dataset.t] == null ? el._base : fillP(T[el.dataset.t], l);
+  });
+  C.labels = JSON.parse(JSON.stringify(BASE_LABELS));
+  var LL = (C.labelsI18n || {})[l] || {}; Object.keys(LL).forEach(function(k){ C.labels[k] = LL[k]; });
+  LANG_DONE = l;
+}
+function setLang(l){
+  if (!LANGS.some(function(x){ return x.code === l; })) return;
+  S.lang = l; sync();
+  document.querySelectorAll('[data-setlang]').forEach(function(b){ b.classList.toggle('on', b.dataset.setlang === l); });
+  if (window.onLang) window.onLang(l);
+}
+
+function lab(key){ var v = S[key]; var L = C.labels[key]; if (Array.isArray(v)) return v.map(function(x){ return L && L[x] || x; }).join(', '); return (L && L[v]) || v; }
+function sync(){
+  applyLang();
+  document.querySelectorAll('[data-bind]').forEach(function(el){
+    var b = el.dataset.bind, m = b.split(':');
+    el.textContent = m[0] === 'label' ? lab(m[1]) : m[0] === 'count' ? (S[m[1]] || []).length : (S[b] == null ? '' : S[b]);
+  });
+  document.querySelectorAll('[data-pick]').forEach(function(el){ var p = el.dataset.pick.split(':'); el.classList.toggle('on', S[p[0]] === p[1]); });
+  document.querySelectorAll('[data-toggle]').forEach(function(el){ var p = el.dataset.toggle.split(':'); el.classList.toggle('on', (S[p[0]] || []).indexOf(p[1]) > -1); });
+  document.querySelectorAll('[data-requires]').forEach(function(el){ el.disabled = !(S[el.dataset.requires] || []).length; });
+  document.querySelectorAll('[data-show]').forEach(function(el){ var p = el.dataset.show.split(':'); el.style.display = String(S[p[0]]) === p[1] ? '' : 'none'; });
+  if (window.onSync) window.onSync(S);
+}
+function show(id, dir){
+  var from = scr[cur], to = scr[id]; if (!to || id === cur) return;
+  var sheet = to.classList.contains('sheet');
+  if (from){
+    from.classList.remove('is-active');
+    if (sheet) from.classList.add('under');                                   /* a sheet slides up over the screen that opened it */
+    else if (dir === 'fwd' && !from.classList.contains('sheet')) from.classList.add('is-past');
+  }
+  if (!sheet) Object.keys(scr).forEach(function(k){ var u = scr[k]; if (u !== to && u.classList.contains('under')) { u.classList.remove('under'); if (dir === 'fwd') u.classList.add('is-past'); } });
+  to.classList.remove('is-past', 'under'); to.classList.add('is-active'); cur = id;
+  paint(); if (window.onEnter) window.onEnter(id, S);
+}
+function go(id){ if (cur) hist.push(cur); show(id, 'fwd'); }
+function back(){ if (hist.length) { var p = hist.pop(); scr[cur].classList.remove('is-active'); show(p, 'back'); } }
+function jump(id){
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active', 'is-past', 'under'); });
+  var i = ORDER.indexOf(id); hist = ORDER.slice(0, i < 0 ? 0 : i); cur = null;
+  ORDER.slice(0, i).forEach(function(k){ if (!scr[k].classList.contains('sheet')) scr[k].classList.add('is-past'); });
+  if (scr[id] && scr[id].classList.contains('sheet')) {                        /* jumping to a sheet: its opener stays visible under it */
+    for (var j = i - 1; j >= 0; j--) if (!scr[ORDER[j]].classList.contains('sheet')) { scr[ORDER[j]].classList.remove('is-past'); scr[ORDER[j]].classList.add('under'); break; }
+  }
+  show(id, 'jump');
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+}
+function stepBy(d){ var i = ORDER.indexOf(cur) + d; if (i >= 0 && i < ORDER.length) jump(ORDER[i]); }
+function jumpTo(id){
+  var p = document.getElementById('prototype');
+  if (p && !document.documentElement.classList.contains('appmode')) p.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start'});
+  jump(id);
+}
+function paint(){
+  sync();
+  var c = document.getElementById('chips');
+  if (!c.childElementCount) ORDER.forEach(function(id){
+    var p = C.panel[id] || {}, b = document.createElement('button');
+    b.className = 'au-chip'; b.type = 'button'; b.dataset.id = id; b.setAttribute('role', 'tab');
+    b.innerHTML = (p.idea ? '<i>' + p.idea + '</i>' : '') + ((C.chips && C.chips[id]) || id);
+    b.onclick = function(){ jump(id); };
+    c.appendChild(b);
+  });
+  c.querySelectorAll('.au-chip').forEach(function(b){ var on = b.dataset.id === cur; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+  var d = C.panel[cur] || {t: cur, why: ''}, n = ORDER.indexOf(cur) + 1;
+  document.getElementById('panel').innerHTML =
+    (d.idea ? '<div class="au-pn-k"><i></i>Idea ' + d.idea + ' of ' + IDEAS + '</div>' : '<div class="au-pn-k au-ctx"><i></i>Context</div>') +
+    '<h3 class="au-pn-t">' + d.t + '</h3><p class="au-pn-h">' + d.why + '</p>' +
+    (d.iv ? '<div class="au-pn-o"><div class="au-lab">Potential outcome · based on Adapty data</div><div class="au-val"><mark>' + d.iv + '</mark></div><div class="au-sub">' + (d.il || '') + '</div></div>' : '') +
+    (d.also ? '<p class="au-pn-a">' + d.also + '</p>' : '') +
+    '<div class="au-pn-nav"><button type="button" onclick="stepBy(-1)"' + (n <= 1 ? ' disabled' : '') + '>‹ Previous</button><span>Screen ' + n + ' of ' + ORDER.length + '</span><button type="button" onclick="stepBy(1)"' + (n === ORDER.length ? ' disabled' : '') + '>Next ›</button></div>';
+  var ab = document.getElementById('abT'); if (ab) ab.textContent = (d.idea ? 'Idea ' + d.idea + ' of ' + IDEAS + ' · ' : '') + (d.t || '');
+}
+document.addEventListener('click', function(e){
+  var j = e.target.closest('[data-jumpto]'); if (j){ e.preventDefault(); jumpTo(j.dataset.jumpto); return; }
+  var L = e.target.closest('[data-setlang]'); if (L){ setLang(L.dataset.setlang); return; }
+  if (e.target.closest('[data-langtoggle]') && LANGS.length > 1){ var k = LANGS.findIndex(function(x){ return x.code === S.lang; }); setLang(LANGS[(k + 1) % LANGS.length].code); return; }
+  var el = e.target.closest('[data-go],[data-back],[data-pick],[data-toggle]'); if (!el) return;
+  if (el.dataset.pick){ var p = el.dataset.pick.split(':'); S[p[0]] = p[1]; sync(); if (el.dataset.advance) setTimeout(function(){ go(el.dataset.advance); }, 170); return; }
+  if (el.dataset.toggle){ var q = el.dataset.toggle.split(':'), a = S[q[0]] = S[q[0]] || [], i = a.indexOf(q[1]); if (i > -1) a.splice(i, 1); else a.push(q[1]); sync(); return; }
+  if ('back' in el.dataset) return back();
+  go(el.dataset.go);
+});
+document.querySelectorAll('[data-input]').forEach(function(inp){
+  inp.value = S[inp.dataset.input] || ''; inp.addEventListener('input', function(){ S[inp.dataset.input] = inp.value.trim() || 'there'; sync(); });
+});
+function $(id){ return document.getElementById(id); }
+
+/* hero stills, shortlist, outcome, sources — from CONTENT */
+$('heroPhones').innerHTML = (C.hero || []).map(function(id, i){
+  var pos = ['l', 'c', 'r'][i] || 'r', t = (C.chips && C.chips[id]) || id;
+  return '<button class="au-hp au-' + pos + '" data-jumpto="' + id + '" aria-label="Open ' + t + '"><img src="assets/hero/' + id + '.png" alt=""></button>';
+}).join('');
+$('ideaList').innerHTML = (C.ideas || []).map(function(r, i){
+  return '<article class="au-idea"><div class="au-num">0' + (i + 1) + '</div><div><h3>' + r.title + '</h3><p>' + r.what + '</p>' +
+    '<button type="button" class="au-lnk" data-jumpto="' + r.screen + '">See it on the screen</button></div>' +
+    '<div class="au-imp"><div class="au-v"><mark>' + r.impact + '</mark></div><div class="au-l">' + r.il + '</div></div></article>';
+}).join('');
+var O = C.outcome || {};
+$('bandNums').innerHTML =
+  (O.cr ? '<div><small>up to</small><b>' + O.cr + '</b><span>CR to purchase</span></div>' : '') +
+  (O.arpu ? '<div><small>up to</small><b>' + O.arpu + '</b><span>ARPU</span></div>' : '');
+$('bandFn').textContent = C.grounding;
+$('fine').textContent = C.grounding + ' Prepared by Adapty.';
+$('srcBody').innerHTML = C.sources.map(function(g){
+  return '<div><h4>' + g.group + '</h4><dl>' + g.items.map(function(it){ return '<dt>' + it.dt + '</dt><dd>' + it.dd + '</dd>'; }).join('') + '</dl></div>';
+}).join('');
+function openSrc(){ var d = $('srcDetails'); d.open = true; d.scrollIntoView({block: 'start'}); }
+
+/* ---- extras: language control, the paywall side by side, QR / phone view, the video ---- */
+if (LANGS.length > 1) {
+  $('langRow').hidden = false;
+  var lb = LANGS.map(function(x){ return '<button type="button" data-setlang="' + x.code + '">' + x.name + '</button>'; }).join('');
+  $('langSw').innerHTML = lb;
+  $('abLang').innerHTML = LANGS.map(function(x){ return '<button type="button" data-setlang="' + x.code + '">' + x.code.toUpperCase() + '</button>'; }).join('');
+}
+var CM = C.compare;
+if (CM && scr[CM.today] && scr[CM.proposed]) {
+  $('compare').hidden = false; $('navCompare').hidden = false;
+  $('cmpBody').innerHTML = '<div class="au-ideas-h"><p class="au-kicker">' + (CM.kicker || 'The paywall, side by side') + '</p><h2 class="au-h2">' + (CM.title || 'Today and proposed.') + (CM.sub ? ' <span>' + CM.sub + '</span>' : '') + '</h2></div>' +
+    '<div class="au-cmp"><figure><img src="assets/hero/' + CM.today + '.png" alt="Your paywall today"><figcaption>Today <span>· ' + (CM.todayCap || 'rebuilt from your recording') + '</span></figcaption></figure>' +
+    '<ol class="au-chg">' + (CM.rows || []).map(function(r){
+      return '<li><h4>' + r.h + (r.idea ? ' <i>Idea ' + r.idea + '</i>' : '') + '</h4><span class="au-was"><em>Today</em>' + r.was + '</span><span class="au-now"><em>Proposed</em>' + r.now + '</span></li>';
+    }).join('') + '</ol>' +
+    '<figure><button type="button" class="au-cmp-go" data-jumpto="' + CM.proposed + '" aria-label="Open the proposed paywall"><img src="assets/hero/' + CM.proposed + '.png" alt="The proposed paywall"></button><figcaption>Proposed <span>· tap to try it</span></figcaption></figure></div>' +
+    (CM.kept ? '<p class="au-kept">' + CM.kept + '</p>' : '');
+}
+if (C.liveUrl) { $('qrCard').hidden = false; $('qrMob').hidden = false; }
+if (/[?&]app\b/.test(Q)) {
+  var H0 = document.documentElement; H0.classList.add('appmode');
+  var openP = function(o){ H0.classList.toggle('au-open', o); $('abWhy').querySelector('em').textContent = o ? 'Close ↓' : 'Why ↑'; };
+  $('abWhy').onclick = function(){ openP(!H0.classList.contains('au-open')); };
+  $('abScrim').onclick = function(){ openP(false); };
+}
+if (C.video) {
+  var dlg = $('vid'), vel = $('vidEl'); vel.src = C.video; if (C.poster) vel.poster = C.poster; $('vidDl').href = C.video;
+  $('heroVideo').hidden = false;
+  $('heroVideo').onclick = function(){ dlg.showModal(); vel.play().catch(function(){}); };
+  $('vidX').onclick = function(){ dlg.close(); };
+  dlg.addEventListener('close', function(){ vel.pause(); });
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
+}
+
+/* ---- ?tour: a deterministic walkthrough from C.tour — tourAt(ms) paints one frame; record-video.sh records it ---- */
+function tourInit(){
+  var T = C.tour, H = document.documentElement, TR = T.transition || 360;
+  H.classList.add('tourmode', 'shot'); document.body.classList.add('nofx');
+  var SEG = T.segments, START = [], STATE = [], UNDER = [], acc = 0, st = JSON.parse(JSON.stringify(C.state));
+  SEG.forEach(function(s, i){
+    START.push(acc); acc += s.d;
+    Object.keys(s.st || {}).forEach(function(k){ st[k] = s.st[k]; }); STATE.push(JSON.parse(JSON.stringify(st)));
+    var u = null; if (scr[s.id].classList.contains('sheet')) for (var j = i - 1; j >= 0; j--) if (!scr[SEG[j].id].classList.contains('sheet')) { u = SEG[j].id; break; }
+    UNDER.push(u);
+  });
+  var TOTAL = acc, capEl = $('tCap'), tap = $('tTap'), pressed = null, popped = [];
+  $('tIntro').innerHTML = '<p class="au-eyebrow"><i></i>' + document.querySelector('.au-top-hero .au-eyebrow').textContent + '</p><h1 class="au-display">' + C.app + '</h1>' +
+    '<p class="au-lede">' + (T.introLede || document.querySelector('.au-top-hero .au-lede').innerHTML) + '</p>';
+  $('tEnd').innerHTML = '<p class="au-eyebrow"><i></i>Growth Audit · ' + C.app + '</p><h2 class="au-te-h">' + (T.endTitle || 'Five ideas, built into your own onboarding.') + '</h2>' +
+    '<div class="au-te-n">' + (O.cr ? '<div><small>up to</small><b>' + O.cr + '</b><span>CR to purchase</span></div>' : '') + (O.arpu ? '<div><small>up to</small><b>' + O.arpu + '</b><span>ARPU</span></div>' : '') + '</div>' +
+    (C.liveUrl ? '<div class="au-te-q"><img src="assets/qr-app.png" alt=""><div><b>Try it on your phone</b><span>' + C.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') + '</span></div></div>' : '') +
+    '<p class="au-te-f">' + C.grounding + '</p>';
+  function ease(x){ return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  function easeBack(x){ var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); }
+  function capHTML(c){
+    c = c || {k: '', t: '', l: ''};
+    return '<div class="au-tk' + (c.n ? '' : ' au-ctx') + '"><i></i>' + (c.n ? 'Idea ' + c.n + ' of ' + IDEAS : (c.k || 'Context')) + '</div><h2 class="au-tt">' + c.t + '</h2><p class="au-tl">' + (c.l || '') + '</p>' +
+      (c.o ? '<div class="au-to"><small>Potential outcome · based on Adapty data</small><b><mark>' + c.o + '</mark></b><span>' + (c.ol || '') + '</span></div>' : '');
+  }
+  function place(id, tf, z){ scr[id].style.transform = tf; scr[id].style.zIndex = z; }
+  window.TOUR_MS = TOTAL;
+  window.tourAt = function(ms){
+    ms = Math.max(0, Math.min(TOTAL - 1, ms));
+    var i = 0; while (i < SEG.length - 1 && ms >= START[i + 1]) i++;
+    var s = SEG[i], local = ms - START[i], prev = i > 0 ? SEG[i - 1] : null;
+    Object.keys(STATE[i]).forEach(function(k){ S[k] = STATE[i][k]; }); sync();
+    var moving = prev && prev.id !== s.id && local < TR, p = moving ? ease(local / TR) : 1;
+    Object.keys(scr).forEach(function(k){ scr[k].classList.remove('is-active', 'is-past', 'under'); place(k, 'translateX(100%)', 0); });
+    var B = scr[s.id];
+    if (moving) {
+      if (B.classList.contains('sheet')) { place(prev.id, 'none', 1); B.style.transform = 'translateY(' + (1 - p) * 100 + '%)'; }
+      else {
+        var slide = 'translateX(' + (-28 * p) + '%)'; place(prev.id, slide, 1); B.style.transform = 'translateX(' + (1 - p) * 100 + '%)';
+        if (UNDER[i - 1]) place(UNDER[i - 1], slide, 0);
+      }
+    } else B.style.transform = 'none';
+    B.style.zIndex = 2;
+    if (UNDER[i] && !moving) place(UNDER[i], 'none', 1);
+    /* optional reveal: s.pop scales an element in, s.reveal fades one in a beat later */
+    popped.forEach(function(e){ e.style.transform = ''; e.style.opacity = ''; }); popped = [];
+    var q = Math.max(0, Math.min(1, (local - 250) / 550));
+    if (s.pop) { var pe = B.querySelector(s.pop); if (pe) { pe.style.transform = 'scale(' + (.55 + .45 * easeBack(q)) + ')'; pe.style.opacity = Math.min(1, q * 1.6); popped.push(pe); } }
+    if (s.reveal) { var re = B.querySelector(s.reveal); if (re) { re.style.opacity = Math.max(0, Math.min(1, (local - 520) / 300)); popped.push(re); } }
+    /* caption crossfades at screen changes; waits for the intro, gives way to the end card */
+    var key = s.id, op = 1;
+    if (moving) { if (p < .5) { key = prev.id; op = 1 - p * 2; } else op = p * 2 - 1; }
+    if (capEl.dataset.k !== key) { capEl.innerHTML = capHTML(T.captions[key]); capEl.dataset.k = key; }
+    var io = ms < 1100 ? 1 : Math.max(0, 1 - (ms - 1100) / 300), eo = s.end ? Math.min(1, local / 350) : 0;
+    capEl.style.opacity = op * Math.max(0, Math.min(1, (ms - 1400) / 300)) * (1 - eo);
+    /* the finger: fades in, taps, ripples out. Selectors are scoped to the screen */
+    tap.style.opacity = 0; if (pressed) { pressed.style.opacity = ''; pressed = null; }
+    if (s.tap) {
+      var el = B.querySelector(s.tap[0]), dt = local - s.tap[1];
+      if (el && dt > -260 && dt < 420) {
+        var r = el.getBoundingClientRect();
+        tap.style.left = (r.left + r.width / 2) + 'px'; tap.style.top = (r.top + r.height / 2) + 'px';
+        if (dt < 0) { tap.style.opacity = (dt + 260) / 260 * .9; tap.style.transform = 'scale(1)'; }
+        else { tap.style.opacity = .9 * (1 - dt / 420); tap.style.transform = 'scale(' + (1 + dt / 420 * .9) + ')'; }
+        if (dt >= 0 && dt < 160) { el.style.opacity = .72; pressed = el; }
+      }
+    }
+    $('tIntro').style.opacity = T.intro === false ? 0 : io;
+    $('tEnd').style.opacity = eo;
+    $('tProg').style.width = (ms / TOTAL * 100) + '%';
+    cur = s.id;
+    return i;
+  };
+  var tm = /[?&]t=(\d+)/.exec(Q); tourAt(tm ? +tm[1] : 0);
+}
+
+/* boot: #<screen-id> deep-links a screen (shoot.sh / hero-stills.sh use it); ?lang=xx picks the language */
+(function(){
+  var lm = /[?&]lang=(\w+)/.exec(Q); if (lm) setLang(lm[1]); else setLang(S.lang);
+  var h = location.hash.slice(1);
+  jump(scr[h] ? h : ORDER[0]);
+  if (scr[h] && !SHOT && !document.documentElement.classList.contains('appmode')) setTimeout(function(){ $('prototype').scrollIntoView(); }, 0);
+  if (/[?&]tour\b/.test(Q) && C.tour) tourInit();
+})();
+</script>
+</body>
+</html>
